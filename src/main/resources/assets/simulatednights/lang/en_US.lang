@@ -1,0 +1,23 @@
+#PARSE_ESCAPES
+command.simulatednights.usage=/simulate\n         - <ticks : time>\n             - follow 'ticks' with: <number of ticks to simulate>\n             - follow 'time' with: <set : add>\n                 - follow 'set' with: <day : night : time to set>\n                 - follow 'add' with: <time to add>\n         - <dimension id : all : 'this' for current dimension>\n         - ['tileentities' : 'blocks' to only tick one or the other]
+command.simulatednights.arguments.first=Required first argument must be '%s' or '%s'.
+command.simulatednights.arguments.time=/%s %s must be followed by '%s' or '%s'.
+command.simulatednights.arguments.time.amount=/%s %s <%s : %s> must be followed by the time to set or add.
+command.simulatednights.arguments.ticks=/%s %s must be followed by the number of ticks to simulate.
+command.simulatednights.arguments.dimension=Dimension argument is required and must be a valid dimension id, '%s' for the current dimension, or '%s' for all dimensions.
+command.simulatednights.arguments.restriction=Optional restriction argument must be '%s' or '%s' to only tick one or the other.
+command.simulatednights.dimension.result.tileentities=All loaded tile entities were ticked in %s%s
+command.simulatednights.dimension.result.blocks=All blocks in all loaded chunks were ticked in %s%s
+command.simulatednights.dimension.result.both=All loaded tile entities and all blocks in all loaded chunks were ticked in %s%s
+command.simulatednights.dimension.single=dimension
+command.simulatednights.dimension.all=all dimensions
+command.simulatednights.dimension.missing.single=No dimension was found with an id of %s.
+command.simulatednights.dimension.missing.all=No dimensions were found.
+
+config.simulatednights.mod.disable=Disable Night Simulation
+config.simulatednights.tick.percentage=Time Tick Percentage
+config.simulatednights.sleep.delay=Sleep Delay
+config.simulatednights.sleep.deep=Enter Deep Sleep
+config.simulatednights.command.permissionlevel=Command Permission Level
+config.simulatednights.command.client.localization=Command Messages Translate on Client
+config.simulatednights.client.missingmod=Allow Clients With Missing Mod

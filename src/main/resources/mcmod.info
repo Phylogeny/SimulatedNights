@@ -1,0 +1,16 @@
+[
+{
+  "modid": "simulatednights",
+  "name": "Simulated Nights",
+  "description": "Simulates the passage of time when sleeping through the night by ticking tile entities and randomly ticking blocks proportional to the amount of time skipped.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Phylogeny"],
+  "credits": "",
+  "logoFile": "assets/simulatednights/logo/simulated_nights_logo.png",
+  "screenshots": [],
+  "dependencies": []
+}
+]
