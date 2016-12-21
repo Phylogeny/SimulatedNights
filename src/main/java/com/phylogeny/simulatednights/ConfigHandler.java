@@ -58,7 +58,7 @@ public class ConfigHandler
 					LangKey.CONFIG_PREFIX + "sleep.deep");
 			
 			Config.commandPermissionLevel = configFile.getInt("Command Permission Level", Configuration.CATEGORY_GENERAL, 4, 0, 4, 
-					"The minimum permission level a use must be to use the " + CommandSimulate.NAME + " command. (default = max level)",
+					"The minimum permission level a user must be to use the " + CommandSimulate.NAME + " command. (default = max level)",
 					LangKey.CONFIG_PREFIX + "command.permissionlevel");
 			
 			Config.commandMessageLocalization = configFile.getBoolean("Command Messages Translate on Client", Configuration.CATEGORY_GENERAL, false, 
