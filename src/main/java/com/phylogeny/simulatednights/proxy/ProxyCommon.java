@@ -22,7 +22,7 @@ public class ProxyCommon
 	
 	public void postInit()
 	{
-		IntegrationMorpheus.isMorpheusLoaded = Loader.isModLoaded("morpheus");
+		IntegrationMorpheus.isMorpheusLoaded = Loader.isModLoaded("morpheus") || Loader.isModLoaded("Morpheus");
 	}
 	
 }

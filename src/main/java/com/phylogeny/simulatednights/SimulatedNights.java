@@ -18,7 +18,11 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = Reference.MOD_ID, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASSPATH, acceptedMinecraftVersions = Reference.MC_VERSIONS_ACCEPTED)
+@Mod(modid = Reference.MOD_ID,
+	 version = Reference.VERSION,
+	 guiFactory = Reference.GUI_FACTORY_CLASSPATH,
+	 acceptedMinecraftVersions = Reference.MC_VERSIONS_ACCEPTED,
+	 updateJSON = Reference.UPDATE_JSON)
 public class SimulatedNights
 {
 	@Mod.Instance(Reference.MOD_ID)

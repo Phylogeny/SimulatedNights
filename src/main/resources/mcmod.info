@@ -2,13 +2,13 @@
 {
   "modid": "simulatednights",
   "name": "Simulated Nights",
-  "description": "Simulates the passage of time when sleeping through the night by ticking tile entities and randomly ticking blocks proportional to the amount of time skipped.",
+  "description": "Simulates the passage of time when sleeping through the night by ticking tile entities and randomly ticking blocks proportional to the amount of time skipped. Also adds a command to simulate (and optionally set/add) time.",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
+  "url": "https://minecraft.curseforge.com/projects/simulated-nights",
+  "updateJSON": "${updatejson}",
   "authorList": ["Phylogeny"],
-  "credits": "",
+  "credits": "Phylogeny",
   "logoFile": "assets/simulatednights/logo/simulated_nights_logo.png",
   "screenshots": [],
   "dependencies": []
