@@ -17,6 +17,7 @@ import net.minecraftforge.common.config.Configuration;
 public class ConfigHandler
 {
 	public static Configuration configFile;
+	public static final String VERSION = "Version";
 	
 	public static void setUpConfigs(File file)
 	{
@@ -35,6 +36,13 @@ public class ConfigHandler
 	{
 		try
 		{
+			String version = getVersion(VERSION);
+			if (!version.equals(Reference.VERSION))
+				removeCategory(Configuration.CATEGORY_GENERAL);
+			
+			removeCategory(VERSION);
+			getVersion(Reference.VERSION);
+			
 			Config.allowClientsWithMissingMod = configFile.getBoolean("Allow Clients With Missing Mod", Configuration.CATEGORY_GENERAL, true, 
 					"If set to true, clients that do not have this mod installed can connect to and play on servers that do. If set to false, clients will not " +
 					"be allowed to connect without this mod installed. (default = allow)",
@@ -105,6 +113,16 @@ public class ConfigHandler
 			if (configFile.hasChanged())
 				configFile.save();
 		}
+	}
+	
+	private static String getVersion(String defaultValue)
+	{
+		return configFile.getString(VERSION, VERSION, defaultValue.toLowerCase(), "Used for cofig updating when updating mod version. Do not change.");
+	}
+	
+	private static void removeCategory(String category)
+	{
+		configFile.removeCategory(configFile.getCategory(category.toLowerCase()));
 	}
 	
 }
