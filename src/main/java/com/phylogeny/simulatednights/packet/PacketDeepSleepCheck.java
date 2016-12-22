@@ -35,8 +35,8 @@ public class PacketDeepSleepCheck implements IMessage
 						return;
 					
 					int dimensionId = ctx.getServerHandler().playerEntity.worldObj.provider.getDimension();
-					if (SimulationHandler.WORLD_SLEEP_DELAY_MAP.containsKey(dimensionId)
-							&& SimulationHandler.WORLD_SLEEP_DELAY_MAP.get(dimensionId).wasRecentlySet())
+					if (SimulationHandler.WORLD_SIMULATED_TICK_MAP.containsKey(dimensionId)
+							&& SimulationHandler.WORLD_SIMULATED_TICK_MAP.get(dimensionId).wasRecentlySet())
 						SimulatedNights.packetNetwork.sendTo(new PacketDeepSleep(false), ctx.getServerHandler().playerEntity);
 				}
 			});

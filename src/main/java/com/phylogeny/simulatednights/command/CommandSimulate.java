@@ -5,7 +5,12 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.tuple.MutablePair;
+
+import scala.actors.threadpool.Arrays;
+
 import com.phylogeny.simulatednights.SimulationHandler;
+import com.phylogeny.simulatednights.SimulationHandler.TickCountCommand;
 import com.phylogeny.simulatednights.reference.Config;
 import com.phylogeny.simulatednights.reference.LangKey;
 
@@ -15,6 +20,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.WorldServer;
@@ -133,17 +139,29 @@ public class CommandSimulate extends CommandBase
 		}
 		startIndex++;
 		String dimensionInfo = dimensionSet ? " " + dimensionId : " (";
-		boolean tickTileentities = true;
+		boolean tickAllEntities = true;
+		boolean tickTileEntities = true;
 		boolean tickBlocks = true;
+		boolean runInSingleServerTick = false;
+		int simulatedTicksPerServerTick = 0;
 		if (argCount > startIndex)
 		{
-			tickTileentities = args[startIndex].equalsIgnoreCase("tileentities");
-			if (tickTileentities || args[startIndex].equalsIgnoreCase("blocks"))
-				tickBlocks = !tickTileentities;
-			else
+			@SuppressWarnings("unchecked")
+			List<String> argsRemaining = Arrays.asList(Arrays.copyOfRange(args, startIndex, args.length));
+			runInSingleServerTick = argsRemaining.contains("singletick");
+			if (argsRemaining.contains("allentities") || argsRemaining.contains("tileentities") || argsRemaining.contains("blocks"))
 			{
-				MessageLang.ARGUMENTS_RESTRICTION.sendMessage(sender);
-				return;
+				tickAllEntities = argsRemaining.contains("allentities");
+				tickTileEntities = argsRemaining.contains("tileentities");
+				tickBlocks = argsRemaining.contains("blocks");
+			}
+			for (String arg : argsRemaining)
+			{
+				try
+				{
+					simulatedTicksPerServerTick = parseInt(arg, 1);
+				}
+				catch (NumberInvalidException e) {}
 			}
 		}
 		boolean foundDimension = false;
@@ -163,18 +181,45 @@ public class CommandSimulate extends CommandBase
 				dimensionInfo += currentDimensionId + ", ";
 			
 			foundDimension = true;
-			SimulationHandler.simulateTicks(worldServer, simulatedTicks, timeMode, setMode, tickTileentities, tickBlocks);
+			if (runInSingleServerTick)
+				SimulationHandler.simulateTicks(worldServer, simulatedTicks, timeMode, setMode, tickAllEntities, tickTileEntities, tickBlocks, true, true);
+			else
+			{
+				if (SimulationHandler.SERVER_SIMULATED_TICK_MAP.containsKey(dimensionId))
+				{
+					MessageLang.QUEUE_IN_PROGRESS.sendMessage(sender);
+					return;
+				}
+				int tickCount = timeMode ? simulatedTicks : (int) (simulatedTicks * Config.timeTickPercentage);
+				if (simulatedTicksPerServerTick < 1)
+					simulatedTicksPerServerTick = Config.simulatedTicksPerServerTick;
+				
+				int simulatedTicksCurrent = Math.min(tickCount, simulatedTicksPerServerTick);
+				int remainder = tickCount - simulatedTicksCurrent;
+				SimulationHandler.simulateTicks(worldServer, simulatedTicksCurrent, timeMode, setMode, tickAllEntities, tickTileEntities, tickBlocks, true, remainder == 0);
+				if (remainder > 0)
+					SimulationHandler.SERVER_SIMULATED_TICK_MAP.put(dimensionId, new TickCountCommand(remainder, timeMode, setMode, tickAllEntities, tickTileEntities, tickBlocks, simulatedTicksPerServerTick));
+			}
 		}
 		if (foundDimension)
 		{
 			if (!dimensionSet)
 				dimensionInfo = dimensionInfo.substring(0, dimensionInfo.lastIndexOf(',')) + ")";
 			
-			(tickTileentities && tickBlocks ? MessageLang.DIMENSION_RESULT_BOTH : (tickTileentities ? MessageLang.DIMENSION_RESULT_TILEENTITIES : MessageLang.DIMENSION_RESULT_BLOCKS))
-				.sendMessage(sender, (dimensionSet ? MessageLang.DIMENSION_SINGLE : MessageLang.DIMENSION_ALL).getMessage(dimensionId), dimensionInfo + ".");
-			
+			List<ITextComponent> messages = new ArrayList<ITextComponent>();
+			MessageLang messageLang = tickAllEntities ? (tickBlocks ? MessageLang.RESULT_BLOCKS_ALL_ENTITIES : MessageLang.RESULT_ALL_ENTITIES)
+							: (tickBlocks ? (tickTileEntities ? MessageLang.RESULT_BLOCKS_TILEENTITIES : MessageLang.RESULT_BLOCKS) : MessageLang.RESULT_TILEENTITIES);
+			messages.add(messageLang.getMessage((dimensionSet ? MessageLang.DIMENSION_SINGLE : MessageLang.DIMENSION_ALL).getMessage(dimensionId), dimensionInfo + "."));
 			if (timeMode)
-				notifyCommandListener(sender, this, "commands.time." + (setMode ? "set" : "added"), Integer.valueOf(simulatedTicks));
+				messages.add(new TextComponentTranslation("commands.time." + (setMode ? "set" : "added"), Integer.valueOf(simulatedTicks)));
+			
+			if (SimulationHandler.SERVER_SIMULATED_TICK_MAP.containsKey(dimensionId))
+				SimulationHandler.commandCompletionMessages = new MutablePair<ICommandSender, List<ITextComponent>>(sender, messages);
+			else
+			{
+				for (ITextComponent message : messages)
+					sender.addChatMessage(message);
+			}
 		}
 		else
 		{
@@ -189,7 +234,7 @@ public class CommandSimulate extends CommandBase
 		if (argCount == 1)
 			return getListOfStringsMatchingLastWord(args, "ticks", "time");
 		
-		int start = 3;
+		int startIndex = 3;
 		if (args[0].equalsIgnoreCase("time"))
 		{
 			switch (argCount)
@@ -197,10 +242,10 @@ public class CommandSimulate extends CommandBase
 				case 2: return getListOfStringsMatchingLastWord(args, "set", "add");
 				case 3: return getListOfStringsMatchingLastWord(args, "day", "night");
 			}
-			start++;
+			startIndex++;
 		}
 		List<String> options = new ArrayList<String>();
-		if (argCount == start)
+		if (argCount == startIndex)
 		{
 			options.add("all");
 			options.add("this");
@@ -212,9 +257,21 @@ public class CommandSimulate extends CommandBase
 			}
 			options = getListOfStringsMatchingLastWord(args, options);
 		}
-		if (argCount == start + 1)
-			options = getListOfStringsMatchingLastWord(args, "tileentities", "blocks");
-		
+		if (argCount > startIndex)
+		{
+			@SuppressWarnings("unchecked")
+			List<String> argsRemaining = Arrays.asList(Arrays.copyOfRange(args, startIndex, args.length));
+			String[] optionalArgs = new String[]{"allentities", "blocks", "singletick"};
+			for (String option : optionalArgs)
+			{
+				if (!argsRemaining.contains(option))
+					options.add(option);
+			}
+			if (!argsRemaining.contains("tileentities") && !argsRemaining.contains("allentities"))
+				options.add("tileentities");
+			
+			options = getListOfStringsMatchingLastWord(args, options);
+		}
 		return options;
 	}
 	
@@ -226,21 +283,25 @@ public class CommandSimulate extends CommandBase
 				"\n             - follow 'time' with: <set : add>" +
 				"\n                 - follow 'set' with: <day : night : time to set>" +
 				"\n                 - follow 'add' with: <time to add>" +
-				"\n         - <dimension id : all : 'this' for current dimension>" +
-				"\n         - ['tileentities' : 'blocks' to only tick one or the other]"),
+				"\n         - <dimension id : 'all' : 'this' for current dimension>" +
+				"\n         - [tileentities : allentities : blocks (tick those specified)]" +
+				"\n         - [simulated ticks per server tick (default if absent)]" +
+				"\n         - ['singletick' to run simulation all in one server tick]"),
 		ARGUMENTS_FIRST("arguments.first", TextFormatting.RED, "Required first argument must be '%s' or '%s'.", "ticks", "time"),
 		ARGUMENTS_TIME("arguments.time", TextFormatting.RED, "/%s %s must be followed by '%s' or '%s'.", "simulate", "time", "set", "add"),
 		ARGUMENTS_TIME_AMOUNT("arguments.time.amount", TextFormatting.RED, "/%s %s <%s : %s> must be followed by the time to set or add.", "simulate", "time", "set", "add"),
 		ARGUMENTS_TICKS("arguments.ticks", TextFormatting.RED, "/%s %s must be followed by the number of ticks to simulate.", "simulate", "ticks"),
 		ARGUMENTS_DIMENSION("arguments.dimension", TextFormatting.RED, "Dimension argument is required and must be a valid dimension id, '%s' for the current dimension, or '%s' for all dimensions.", "this", "all"),
-		ARGUMENTS_RESTRICTION("arguments.restriction", TextFormatting.RED, "Optional restriction argument must be '%s' or '%s' to only tick one or the other.", "tileentities", "blocks"),
-		DIMENSION_RESULT_TILEENTITIES("dimension.result.tileentities", "All loaded tile entities were ticked in %s%s"),
-		DIMENSION_RESULT_BLOCKS("dimension.result.blocks", "All blocks in all loaded chunks were ticked in %s%s"),
-		DIMENSION_RESULT_BOTH("dimension.result.both", "All loaded tile entities and all blocks in all loaded chunks were ticked in %s%s"),
 		DIMENSION_SINGLE("dimension.single", "dimension"),
 		DIMENSION_ALL("dimension.all", "all dimensions"),
 		DIMENSION_MISSING_SINGLE("dimension.missing.single", TextFormatting.RED, "No dimension was found with an id of %s."),
-		DIMENSION_MISSING_ALL("dimension.missing.all", TextFormatting.RED, "No dimensions were found.");
+		DIMENSION_MISSING_ALL("dimension.missing.all", TextFormatting.RED, "No dimensions were found."),
+		RESULT_ALL_ENTITIES("result.allentities", "All entities were ticked in %s%s"),
+		RESULT_TILEENTITIES("result.tileentities", "All tile entities were ticked in %s%s"),
+		RESULT_BLOCKS("result.blocks", "Blocks were randomly ticked in all persistent chunks of %s%s"),
+		RESULT_BLOCKS_ALL_ENTITIES("result.blocks.allentities", "All entities were ticked and blocks were randomly ticked in all persistent chunks of %s%s"),
+		RESULT_BLOCKS_TILEENTITIES("result.blocks.tileentities", "All tile entities were ticked and blocks were randomly ticked in all persistent chunks of %s%s"),
+		QUEUE_IN_PROGRESS("queue.inprogress", TextFormatting.RED, "A simulation command is already in progress. Please wait until it is finished.");
 		
 		private String langKey, hardCodedText;
 		private TextFormatting color;
