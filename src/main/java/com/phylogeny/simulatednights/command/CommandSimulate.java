@@ -1,13 +1,12 @@
 package com.phylogeny.simulatednights.command;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.tuple.MutablePair;
-
-import scala.actors.threadpool.Arrays;
 
 import com.phylogeny.simulatednights.SimulationHandler;
 import com.phylogeny.simulatednights.SimulationHandler.TickCountCommand;
@@ -146,7 +145,6 @@ public class CommandSimulate extends CommandBase
 		int simulatedTicksPerServerTick = 0;
 		if (argCount > startIndex)
 		{
-			@SuppressWarnings("unchecked")
 			List<String> argsRemaining = Arrays.asList(Arrays.copyOfRange(args, startIndex, args.length));
 			runInSingleServerTick = argsRemaining.contains("singletick");
 			if (argsRemaining.contains("allentities") || argsRemaining.contains("tileentities") || argsRemaining.contains("blocks"))
@@ -259,7 +257,6 @@ public class CommandSimulate extends CommandBase
 		}
 		if (argCount > startIndex)
 		{
-			@SuppressWarnings("unchecked")
 			List<String> argsRemaining = Arrays.asList(Arrays.copyOfRange(args, startIndex, args.length));
 			String[] optionalArgs = new String[]{"allentities", "blocks", "singletick"};
 			for (String option : optionalArgs)

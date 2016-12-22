@@ -1,9 +1,8 @@
 package com.phylogeny.simulatednights.client.config;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
-
-import scala.actors.threadpool.Arrays;
 
 import com.phylogeny.simulatednights.ConfigHandler;
 import com.phylogeny.simulatednights.reference.Config;
@@ -46,7 +45,7 @@ public class GuiConfigSimulatedNights extends GuiConfig
 		for (IConfigEntry entry : entryList.listEntries)
 		{
 			Object mode = entry.getCurrentValue();
-			List<?> modes = Arrays.asList(Config.SEGMENT_SLEEP_EXECUTION_VALID_VALUES);
+			List<String> modes = Arrays.asList(Config.SEGMENT_SLEEP_EXECUTION_VALID_VALUES);
 			if (modes.contains(mode))
 			{
 				multipleTicks = mode.equals(Config.SEGMENT_SLEEP_EXECUTION_VALID_VALUES[0]);
