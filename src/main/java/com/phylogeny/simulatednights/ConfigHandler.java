@@ -129,7 +129,7 @@ public class ConfigHandler
 	
 	private static String getVersion(String defaultValue)
 	{
-		return configFile.getString(VERSION, VERSION, defaultValue.toLowerCase(), "Used for cofig updating when updating mod version. Do not change.");
+		return configFile.getString(VERSION, VERSION, defaultValue, "Used for cofig updating when updating mod version. Do not change.");
 	}
 	
 	private static void removeCategory(String category)
