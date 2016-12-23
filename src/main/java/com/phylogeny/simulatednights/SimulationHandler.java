@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Level;
 import com.phylogeny.simulatednights.integration.IntegrationMorpheus;
 import com.phylogeny.simulatednights.packet.PacketDeepSleep;
 import com.phylogeny.simulatednights.reference.Config;
+import com.phylogeny.simulatednights.reference.Config.SleepExecution;
 import com.phylogeny.simulatednights.reference.Reference;
 
 import net.minecraft.block.Block;
@@ -83,7 +84,7 @@ public class SimulationHandler
 		if (allAsleep || (IntegrationMorpheus.isMorpheusLoaded
 				&& event.world.getWorldTime() % 20L == 9 && IntegrationMorpheus.areEnoughPlayersAsleep(event.world)))
 		{
-			if (!Config.segmentSleepExecution)
+			if (Config.sleepExecution == SleepExecution.SINGLE)
 			{
 				if (Config.sleepDelay > 0)
 				{
@@ -140,7 +141,7 @@ public class SimulationHandler
 					SimulatedNights.packetNetwork.sendTo(new PacketDeepSleep(true), (EntityPlayerMP) entityPlayer);
 			}
 			tickCount.setNotRecentlySet();
-			if (Config.segmentSleepExecution)
+			if (Config.sleepExecution == SleepExecution.MULTIPLE)
 				endMessage(dimensionId);
 		}
 	}

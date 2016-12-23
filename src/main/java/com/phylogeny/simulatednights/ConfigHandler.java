@@ -6,8 +6,10 @@ import org.apache.logging.log4j.Level;
 
 import com.phylogeny.simulatednights.command.CommandSimulate;
 import com.phylogeny.simulatednights.reference.Config;
+import com.phylogeny.simulatednights.reference.Config.SleepSoundsFadeRange;
 import com.phylogeny.simulatednights.reference.LangKey;
 import com.phylogeny.simulatednights.reference.Reference;
+import com.phylogeny.simulatednights.reference.Config.SleepExecution;
 
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLLog;
@@ -68,6 +70,15 @@ public class ConfigHandler
 					"during a sleep delay, if there is one). (default = yes)",
 					LangKey.CONFIG_PREFIX + "night.deepsleep");
 			
+			Config.setSleepSoundsFadeRange(configFile.getString("Fade To Silence Upon Falling Asleep", Configuration.CATEGORY_GENERAL, SleepSoundsFadeRange.ALL.getName(),
+					"If not set to '" + Config.sleepSoundsFadeRange.NONE.getName() + "', the master sound volume will fade to silence as the player falls asleep. This config " +
+					"specifies the range over which that occurs. If set to '" + Config.sleepSoundsFadeRange.NORMAL.getName() + "', it will fade out from when the player first " +
+					"enters the bed to when the player is fully asleep by vanilla Minecraft standards. If set to '" + Config.sleepSoundsFadeRange.DEEP.getName() + "', it will " +
+					"fade out from when the player begins fading into a deep sleep to when the player is fully deeply asleep. If set to '" + Config.sleepSoundsFadeRange.ALL.getName() +
+					"', it will fade mostly out across the normal range, and then fade the rest of the way out across the deep range. (default = fade to silence across " +
+					"the full range - normal to deep)", Config.sleepSoundsFadeRangeMap.values().toArray(new String[Config.sleepSoundsFadeRangeMap.size()]),
+					LangKey.CONFIG_PREFIX + "night.sounds.fade"));
+			
 			Config.sleepTickAllBlocks = configFile.getBoolean("Tick Blocks Randomly Overnight", Configuration.CATEGORY_GENERAL, true, 
 					"If set to true, blocks in all persistent chuncks will be ticked as part of the simulation of the night. (default = randomly tick blocks)",
 					LangKey.CONFIG_PREFIX + "simulation.night.tick.blocks");
@@ -83,11 +94,12 @@ public class ConfigHandler
 			
 			Config.disableNightSimulation = !Config.sleepTickAllEntities && !Config.sleepTickAllTileEntities && !Config.sleepTickAllBlocks;
 			
-			Config.setSegmentSleepExecution(configFile.getString("Server Ticks Night is Simulated Over", Configuration.CATEGORY_GENERAL, Config.SEGMENT_SLEEP_EXECUTION_VALID_VALUES[0],
+			Config.setSleepExecution(configFile.getString("Server Ticks Night is Simulated Over", Configuration.CATEGORY_GENERAL, SleepExecution.MULTIPLE.getName(),
 					"Determines whether the night will be simulated over multiple server ticks (where the number of ticks simulated per server tick is set by " +
 					"'Simulated Ticks Per Server Tick') or whether the night will be simulated in a single server tick (this will occur at the end of a sleep " +
 					"delay, if one is set by 'Sleep Delay') This config is only used if 'Server Ticks Night is Simulated Over' is set to '" +
-					Config.SEGMENT_SLEEP_EXECUTION_VALID_VALUES[1] + "'. (default = over multiple ticks)", Config.SEGMENT_SLEEP_EXECUTION_VALID_VALUES,
+					SleepExecution.SINGLE.getName() + "'. (default = over multiple ticks)",
+					Config.sleepExecutionMap.values().toArray(new String[Config.sleepExecutionMap.size()]),
 					LangKey.CONFIG_PREFIX + "simulation.night.mode"));
 			
 			Config.simulatedTicksPerServerTick = configFile.getInt("Simulated Ticks Per Server Tick", Configuration.CATEGORY_GENERAL, 60, 1, Integer.MAX_VALUE, 

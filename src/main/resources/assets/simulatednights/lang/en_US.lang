@@ -26,5 +26,6 @@ config.simulatednights.simulation.night.tick.tileentities=Tick Tile Entities Ove
 config.simulatednights.simulation.night.tick.blocks=Tick Blocks Randomly Overnight
 config.simulatednights.simulation.rate=Simulated Ticks Per Server Tick
 config.simulatednights.night.deepsleep=Enter Deep Sleep
+config.simulatednights.night.sounds.fade=Fade To Silence Upon Falling Asleep
 config.simulatednights.command.permissionlevel=Command Permission Level
 config.simulatednights.command.client.localization=Command Messages Translate on Client

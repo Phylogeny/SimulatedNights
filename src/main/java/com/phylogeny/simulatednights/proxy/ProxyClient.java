@@ -7,18 +7,21 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 public class ProxyClient extends ProxyCommon
 {
+	public static DeepSleepHandler deepSleepHandler;
 	
 	@Override
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		super.preInit(event);
-		MinecraftForge.EVENT_BUS.register(new DeepSleepHandler());
+		deepSleepHandler = new DeepSleepHandler();
+		MinecraftForge.EVENT_BUS.register(deepSleepHandler);
 	}
 	
 	@Override
 	public void postInit()
 	{
 		super.postInit();
+		deepSleepHandler.saveMasterVolumeCopy();
 	}
 	
 }

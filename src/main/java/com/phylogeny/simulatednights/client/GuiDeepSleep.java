@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 public class GuiDeepSleep extends GuiSleepMP
 {
 	private String text = "";
-	private int renderCounter;
+	private int sleepTimer;
 	private boolean mimicGuiSleepMP, closing;
 	private GuiScreen parentGui;
 	private GuiButtonNull button;
@@ -31,6 +31,21 @@ public class GuiDeepSleep extends GuiSleepMP
 			GuiTextField inputField = ReflectionHelper.getPrivateValue(GuiChat.class, (GuiChat) parentGui, "field_146415_a", "a", "inputField");
 			text = inputField.getText();
 		}
+	}
+	
+	public int getDeepSleepRange()
+	{
+		return 251;
+	}
+	
+	public int getDeepSleepTimer()
+	{
+		return sleepTimer;
+	}
+	
+	public float getPercentDeeplyAsleep()
+	{
+		return sleepTimer / (float) getDeepSleepRange();
 	}
 	
 	@Override
@@ -51,7 +66,7 @@ public class GuiDeepSleep extends GuiSleepMP
 	{
 		if (mimicGuiSleepMP)
 		{
-			int alpha = 255 - renderCounter;
+			int alpha = 255 - sleepTimer;
 			enableBlend();
 			drawRect(2, height - 14, width - 2, height - 2, (alpha << 24));
 			enableBlend();
@@ -62,17 +77,17 @@ public class GuiDeepSleep extends GuiSleepMP
 		drawOverlay();
 		boolean fullyAsleep = mc.thePlayer.isPlayerFullyAsleep();
 		if (fullyAsleep)
-			renderCounter = MathHelper.clamp_int(renderCounter + (closing ? -1 : 1), 0, 251);
+			sleepTimer = MathHelper.clamp_int(sleepTimer + (closing ? -1 : 1), 0, getDeepSleepRange());
 		
 		if (mimicGuiSleepMP)
-			buttonList.get(0).visible = renderCounter == 0;
-		else if (renderCounter == 0 && fullyAsleep)
+			buttonList.get(0).visible = sleepTimer == 0;
+		else if (sleepTimer == 0 && fullyAsleep)
 				Minecraft.getMinecraft().displayGuiScreen(parentGui);
 	}
 	
 	private void drawOverlay()
 	{
-		int sleepTime = Math.min(80, (int) (renderCounter / 2.5F));
+		int sleepTime = Math.min(80, (int) (sleepTimer / 2.5F));
 		float opacity = sleepTime / 100.0F;
 		if (opacity > 1.0F)
 			opacity = 1.0F - (sleepTime - 100) / 10.0F;
@@ -91,20 +106,25 @@ public class GuiDeepSleep extends GuiSleepMP
 	@Override
 	public void updateScreen()
 	{
-		if (renderCounter < 20)
+		if (sleepTimer < 20)
 			super.updateScreen();
 	}
 	
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException
 	{
-		if (renderCounter == 0)
+		if (sleepTimer == 0)
 			super.keyTyped(typedChar, keyCode);
 	}
 	
 	public void setClosingState(boolean closing)
 	{
 		this.closing = closing;
+	}
+	
+	public boolean isPlayerFadingIndoDeepSleep()
+	{
+		return !closing;
 	}
 	
 	private static class GuiButtonNull extends GuiButton
