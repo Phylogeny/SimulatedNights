@@ -103,8 +103,7 @@ public class ConfigHandler
 					LangKey.CONFIG_PREFIX + "simulation.night.mode"));
 			
 			Config.simulatedTicksPerServerTick = configFile.getInt("Simulated Ticks Per Server Tick", Configuration.CATEGORY_GENERAL, 60, 1, Integer.MAX_VALUE, 
-					"Number of server ticks to simulate for ever actual server tick that players are sleeping for (after falling asleep normally). " +
-					"(default = 1 simulated minute per second)",
+					"Number of server ticks simulated for every actual server tick. (default = 1 simulated minute per second)",
 					LangKey.CONFIG_PREFIX + "simulation.rate");
 			
 			Config.sleepDelay = configFile.getInt("Sleep Delay", Configuration.CATEGORY_GENERAL, 200, 0, Integer.MAX_VALUE, 
