@@ -31,8 +31,7 @@ dependencies {
 	compile files ("run/mods/" + morpheus_version + ".jar")
 }
 
-processResources
-{
+processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
     inputs.property "updatejson", update_json
