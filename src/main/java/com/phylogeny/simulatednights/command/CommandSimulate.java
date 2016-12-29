@@ -29,7 +29,7 @@ public class CommandSimulate extends CommandBase
 	public static final String NAME = "simulate";
 	
 	@Override
-	public String getCommandName()
+	public String getName()
 	{
 		return NAME;
 	}
@@ -41,7 +41,7 @@ public class CommandSimulate extends CommandBase
 	}
 	
 	@Override
-	public String getCommandUsage(ICommandSender sender)
+	public String getUsage(ICommandSender sender)
 	{
 		return MessageLang.USAGE.getMessageString();
 	}
@@ -163,9 +163,9 @@ public class CommandSimulate extends CommandBase
 			}
 		}
 		boolean foundDimension = false;
-		for (int i = 0; i < server.worldServers.length; i++)
+		for (int i = 0; i < server.worlds.length; i++)
 		{
-			WorldServer worldServer = server.worldServers[i];
+			WorldServer worldServer = server.worlds[i];
 			if (worldServer == null)
 				continue;
 			
@@ -216,7 +216,7 @@ public class CommandSimulate extends CommandBase
 			else
 			{
 				for (ITextComponent message : messages)
-					sender.addChatMessage(message);
+					sender.sendMessage(message);
 			}
 		}
 		else
@@ -226,7 +226,7 @@ public class CommandSimulate extends CommandBase
 	}
 	
 	@Override
-	public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
 	{
 		int argCount = args.length;
 		if (argCount == 1)
@@ -247,9 +247,9 @@ public class CommandSimulate extends CommandBase
 		{
 			options.add("all");
 			options.add("this");
-			for (int i = 0; i < server.worldServers.length; i++)
+			for (int i = 0; i < server.worlds.length; i++)
 			{
-				WorldServer worldServer = server.worldServers[i];
+				WorldServer worldServer = server.worlds[i];
 				if (worldServer != null)
 					options.add(Integer.toString(worldServer.provider.getDimension()));
 			}
@@ -329,7 +329,7 @@ public class CommandSimulate extends CommandBase
 		
 		public void sendMessage(ICommandSender sender, Object... args)
 		{
-			sender.addChatMessage(getMessage(args));
+			sender.sendMessage(getMessage(args));
 		}
 		
 		public TextComponentTranslation getMessage(Object... args)

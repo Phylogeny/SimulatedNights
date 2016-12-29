@@ -72,7 +72,7 @@ public class SimulationHandler
 				{
 					List<ITextComponent> messages = commandCompletionMessages.getRight();
 					for (int i = 0; i < messages.size(); i++)
-						sender.addChatMessage(messages.get(i));
+						sender.sendMessage(messages.get(i));
 				}
 				SERVER_SIMULATED_TICK_MAP.remove(dimensionId);
 			}
@@ -256,7 +256,7 @@ public class SimulationHandler
 					for (i = 0; i < tileEntities.size(); i++)
 					{
 						tileEntity = tileEntities.get(i);
-						if (tileEntity.isInvalid() || !tileEntity.hasWorldObj())
+						if (tileEntity.isInvalid() || !tileEntity.hasWorld())
 							continue;
 						
 						blockpos = tileEntity.getPos();

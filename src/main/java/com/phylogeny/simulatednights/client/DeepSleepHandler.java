@@ -43,7 +43,7 @@ public class DeepSleepHandler
 	@SubscribeEvent
 	public void openSleepGui(GuiOpenEvent event)
 	{
-		if (IntegrationMorpheus.isMorpheusLoaded && event.getGui() != null && event.getGui() instanceof GuiSleepMP && Minecraft.getMinecraft().thePlayer.isPlayerSleeping())
+		if (IntegrationMorpheus.isMorpheusLoaded && event.getGui() != null && event.getGui() instanceof GuiSleepMP && Minecraft.getMinecraft().player.isPlayerSleeping())
 			SimulatedNights.packetNetwork.sendToServer(new PacketDeepSleepCheck());
 	}
 	
@@ -68,9 +68,9 @@ public class DeepSleepHandler
 			return;
 		
 		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-		if (gui != null && Minecraft.getMinecraft().thePlayer != null)
+		if (gui != null && Minecraft.getMinecraft().player != null)
 		{
-			int sleepTimer = Minecraft.getMinecraft().thePlayer.getSleepTimer();
+			int sleepTimer = Minecraft.getMinecraft().player.getSleepTimer();
 			if (sleepTimer > 0)
 			{
 				if (Config.sleepSoundsFadeRange == SleepSoundsFadeRange.ALL)

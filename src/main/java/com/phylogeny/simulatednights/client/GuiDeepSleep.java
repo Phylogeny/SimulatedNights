@@ -75,9 +75,9 @@ public class GuiDeepSleep extends GuiSleepMP
 			button.drawButton(mc, mouseX, mouseY, alpha);
 		}
 		drawOverlay();
-		boolean fullyAsleep = mc.thePlayer.isPlayerFullyAsleep();
+		boolean fullyAsleep = mc.player.isPlayerFullyAsleep();
 		if (fullyAsleep)
-			sleepTimer = MathHelper.clamp_int(sleepTimer + (closing ? -1 : 1), 0, getDeepSleepRange());
+			sleepTimer = MathHelper.clamp(sleepTimer + (closing ? -1 : 1), 0, getDeepSleepRange());
 		
 		if (mimicGuiSleepMP)
 			buttonList.get(0).visible = sleepTimer == 0;
