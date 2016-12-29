@@ -183,7 +183,7 @@ public class CommandSimulate extends CommandBase
 				SimulationHandler.simulateTicks(worldServer, simulatedTicks, timeMode, setMode, tickAllEntities, tickTileEntities, tickBlocks, true, true);
 			else
 			{
-				if (SimulationHandler.SERVER_SIMULATED_TICK_MAP.containsKey(dimensionId))
+				if (SimulationHandler.SERVER_SIMULATED_TICK_MAP.containsKey(currentDimensionId))
 				{
 					MessageLang.QUEUE_IN_PROGRESS.sendMessage(sender);
 					return;
@@ -196,7 +196,7 @@ public class CommandSimulate extends CommandBase
 				int remainder = tickCount - simulatedTicksCurrent;
 				SimulationHandler.simulateTicks(worldServer, simulatedTicksCurrent, timeMode, setMode, tickAllEntities, tickTileEntities, tickBlocks, true, remainder == 0);
 				if (remainder > 0)
-					SimulationHandler.SERVER_SIMULATED_TICK_MAP.put(dimensionId, new TickCountCommand(remainder, timeMode, setMode, tickAllEntities, tickTileEntities, tickBlocks, simulatedTicksPerServerTick));
+					SimulationHandler.SERVER_SIMULATED_TICK_MAP.put(currentDimensionId, new TickCountCommand(remainder, timeMode, setMode, tickAllEntities, tickTileEntities, tickBlocks, simulatedTicksPerServerTick));
 			}
 		}
 		if (foundDimension)

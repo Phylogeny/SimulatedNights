@@ -73,6 +73,8 @@ public class SimulationHandler
 					List<ITextComponent> messages = commandCompletionMessages.getRight();
 					for (int i = 0; i < messages.size(); i++)
 						sender.sendMessage(messages.get(i));
+					
+					commandCompletionMessages.setValue(new ArrayList<ITextComponent>());
 				}
 				SERVER_SIMULATED_TICK_MAP.remove(dimensionId);
 			}
