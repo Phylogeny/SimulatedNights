@@ -18,6 +18,7 @@ public class ProxyCommon
 		MinecraftForge.EVENT_BUS.register(new ConfigHandler());
 		MinecraftForge.EVENT_BUS.register(new SimulationHandler());
 		PacketRegistration.registerPackets();
+		SimulationHandler.initReflectionFields();
 	}
 	
 	public void postInit()

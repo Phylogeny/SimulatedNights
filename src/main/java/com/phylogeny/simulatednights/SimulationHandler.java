@@ -1,5 +1,6 @@
 package com.phylogeny.simulatednights;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,6 +45,34 @@ public class SimulationHandler
 	public static final Map<Integer, TickCount> WORLD_SIMULATED_TICK_MAP = new HashMap<Integer, TickCount>();
 	public static final Map<Integer, TickCountCommand> SERVER_SIMULATED_TICK_MAP = new HashMap<Integer, TickCountCommand>();
 	public static Pair<ICommandSender, List<ITextComponent>> commandCompletionMessages = new MutablePair<ICommandSender, List<ITextComponent>>();
+	private static Field sleepTimer, updateLCG;
+	
+	public static void initReflectionFields()
+	{
+		sleepTimer = ReflectionHelper.findField(EntityPlayer.class, "field_71076_b", "sleepTimer");
+		updateLCG = ReflectionHelper.findField(World.class, "field_73005_l", "updateLCG");
+	}
+	
+	private static int getInt(Field field, Object instance)
+	{
+		try
+		{
+			return field.getInt(instance);
+		}
+		catch (IllegalArgumentException e) {}
+		catch (IllegalAccessException e) {}
+		return 0;
+	}
+	
+	private static void setInt(Field field, Object instance, int value)
+	{
+		try
+		{
+			field.setInt(instance, value);
+		}
+		catch (IllegalArgumentException e) {}
+		catch (IllegalAccessException e) {}
+	}
 	
 	@SubscribeEvent
 	public void simulateNight(TickEvent.WorldTickEvent event)
@@ -138,7 +167,7 @@ public class SimulationHandler
 			int sleepTimer;
 			for (EntityPlayer entityPlayer : worldServer.playerEntities)
 			{
-				sleepTimer = ReflectionHelper.getPrivateValue(EntityPlayer.class, entityPlayer, "field_71076_b", "sleepTimer");
+				sleepTimer = getInt(this.sleepTimer, entityPlayer);
 				if (sleepTimer >= 100)
 					SimulatedNights.packetNetwork.sendTo(new PacketDeepSleep(true), (EntityPlayerMP) entityPlayer);
 			}
@@ -162,10 +191,10 @@ public class SimulationHandler
 		int sleepTimer;
 		for (EntityPlayer entityPlayer : worldServer.playerEntities)
 		{
-			sleepTimer = ReflectionHelper.getPrivateValue(EntityPlayer.class, entityPlayer, "field_71076_b", "sleepTimer");
+			sleepTimer = getInt(this.sleepTimer, entityPlayer);
 			if (sleepTimer >= 100)
 			{
-				ReflectionHelper.setPrivateValue(EntityPlayer.class, entityPlayer, 99, "field_71076_b", "sleepTimer");
+				setInt(this.sleepTimer, entityPlayer, 99);
 				if (Config.enterDeepSleep && enterDeepSleep)
 					SimulatedNights.packetNetwork.sendTo(new PacketDeepSleep(false), (EntityPlayerMP) entityPlayer);
 			}
@@ -191,7 +220,7 @@ public class SimulationHandler
 				if (notifyStart)
 					startMessage(dimensionId);
 				
-				int updateSeed = ReflectionHelper.getPrivateValue(World.class, worldServer, "field_73005_l", "updateLCG");
+				int updateSeed = getInt(updateLCG, worldServer);
 				int randomTickSpeed = worldServer.getGameRules().getInt("randomTickSpeed");
 				int chunkX, chunkZ, randomPos, x, y, z, i, j;
 				IBlockState iblockstate;
@@ -280,7 +309,7 @@ public class SimulationHandler
 						}
 					}
 				}
-				ReflectionHelper.setPrivateValue(World.class, worldServer, updateSeed, "field_73005_l", "updateLCG");
+				setInt(updateLCG, worldServer, updateSeed);
 				if (notifyEnd)
 					endMessage(dimensionId);
 				
