@@ -45,23 +45,23 @@ public class ConfigHandler
 			removeCategory(VERSION);
 			getVersion(Reference.VERSION);
 			
-			Config.allowClientsWithMissingMod = configFile.getBoolean("Allow Clients With Missing Mod", Configuration.CATEGORY_GENERAL, true, 
+			Config.allowClientsWithMissingMod = configFile.getBoolean("Allow Clients With Missing Mod", Configuration.CATEGORY_GENERAL, true,
 					"If set to true, clients that do not have this mod installed can connect to and play on servers that do. If set to false, clients will not " +
 					"be allowed to connect without this mod installed. (default = allow)",
 					LangKey.CONFIG_PREFIX + "mod.client.missingmod");
 			
-			Config.commandMessageLocalization = configFile.getBoolean("Command Messages Translate on Client", Configuration.CATEGORY_GENERAL, false, 
+			Config.commandMessageLocalization = configFile.getBoolean("Command Messages Translate on Client", Configuration.CATEGORY_GENERAL, false,
 					"If set to true, command messages will be sent to clients as lang keys to be translated. The down-side is that if the client does not have this " +
 					"mod installed, the messages will be useless raw lang key strings. If set to false, the hard-coded strings (in English) will be sent. The " +
 					"down-side is that even if the client has this mod installed and has a non-English file, it will not translate to their language. " +
 					"(default = send hard-coded English strings)",
 					LangKey.CONFIG_PREFIX + "command.client.localization");
 			
-			Config.commandPermissionLevel = configFile.getInt("Command Permission Level", Configuration.CATEGORY_GENERAL, 4, 0, 4, 
+			Config.commandPermissionLevel = configFile.getInt("Command Permission Level", Configuration.CATEGORY_GENERAL, 4, 0, 4,
 					"The minimum permission level a user must be to use the " + CommandSimulate.NAME + " command. (default = max level)",
 					LangKey.CONFIG_PREFIX + "command.permissionlevel");
 			
-			Config.enterDeepSleep = configFile.getBoolean("Enter Deep Sleep", Configuration.CATEGORY_GENERAL, true, 
+			Config.enterDeepSleep = configFile.getBoolean("Enter Deep Sleep", Configuration.CATEGORY_GENERAL, true,
 					"If set to true, when night begins to be simulated (or if there is a sleep delay, when the delay begins) all sleeping players will fade into " +
 					"a deep sleep that they will not be able to leave until 1) morning arrives; 2) they forcibly close their client; or 3) there is sleep delay with " +
 					"remaining time and the sleeping conditions cease to be met (due to someone entering the dimension, for example). In the case of the " +
@@ -79,16 +79,16 @@ public class ConfigHandler
 					"the full range - normal to deep)", Config.sleepSoundsFadeRangeMap.values().toArray(new String[Config.sleepSoundsFadeRangeMap.size()]),
 					LangKey.CONFIG_PREFIX + "night.sounds.fade"));
 			
-			Config.sleepTickAllBlocks = configFile.getBoolean("Tick Blocks Randomly Overnight", Configuration.CATEGORY_GENERAL, true, 
+			Config.sleepTickAllBlocks = configFile.getBoolean("Tick Blocks Randomly Overnight", Configuration.CATEGORY_GENERAL, true,
 					"If set to true, blocks in all persistent chuncks will be ticked as part of the simulation of the night. (default = randomly tick blocks)",
 					LangKey.CONFIG_PREFIX + "simulation.night.tick.blocks");
 			
-			Config.sleepTickAllEntities = configFile.getBoolean("Tick All Entities Overnight", Configuration.CATEGORY_GENERAL, false, 
+			Config.sleepTickAllEntities = configFile.getBoolean("Tick All Entities Overnight", Configuration.CATEGORY_GENERAL, false,
 					"If set to true, all entities (mobs, players, tile entities, items, etc.) will be updated as part of the simulation of the night. " +
 					"(default = do not update all entities)",
 					LangKey.CONFIG_PREFIX + "simulation.night.tick.allentities");
 			
-			Config.sleepTickAllTileEntities = configFile.getBoolean("Tick Tile Entities Overnight", Configuration.CATEGORY_GENERAL, true, 
+			Config.sleepTickAllTileEntities = configFile.getBoolean("Tick Tile Entities Overnight", Configuration.CATEGORY_GENERAL, true,
 					"If set to true, all tile entities will be ticked as part of the simulation of the night. (default = tick all tile entities)",
 					LangKey.CONFIG_PREFIX + "simulation.night.tick.tileentities");
 			
@@ -102,15 +102,15 @@ public class ConfigHandler
 					Config.sleepExecutionMap.values().toArray(new String[Config.sleepExecutionMap.size()]),
 					LangKey.CONFIG_PREFIX + "simulation.night.mode"));
 			
-			Config.simulatedTicksPerServerTick = configFile.getInt("Simulated Ticks Per Server Tick", Configuration.CATEGORY_GENERAL, 60, 1, Integer.MAX_VALUE, 
+			Config.simulatedTicksPerServerTick = configFile.getInt("Simulated Ticks Per Server Tick", Configuration.CATEGORY_GENERAL, 60, 1, Integer.MAX_VALUE,
 					"Number of server ticks simulated for every actual server tick. (default = 1 simulated minute per second)",
 					LangKey.CONFIG_PREFIX + "simulation.rate");
 			
-			Config.sleepDelay = configFile.getInt("Sleep Delay", Configuration.CATEGORY_GENERAL, 200, 0, Integer.MAX_VALUE, 
+			Config.sleepDelay = configFile.getInt("Sleep Delay", Configuration.CATEGORY_GENERAL, 200, 0, Integer.MAX_VALUE,
 					"Number of ticks players must stay in bed (after falling asleep normally) before the night is simulated and morning arrives. (default = 10 seconds)",
 					LangKey.CONFIG_PREFIX + "simulation.night.delay");
 			
-			Config.timeTickPercentage = configFile.getFloat("Time Tick Percentage", Configuration.CATEGORY_GENERAL, 1.0F, 0.0F, Float.MAX_VALUE, 
+			Config.timeTickPercentage = configFile.getFloat("Time Tick Percentage", Configuration.CATEGORY_GENERAL, 1.0F, 0.0F, Float.MAX_VALUE,
 					"Percentage of the server ticks skipped by sleeping (or skipped by setting/adding time with the /simulate command) to simulate. (default = 100%)",
 					LangKey.CONFIG_PREFIX + "simulation.tickpercentage");
 		}

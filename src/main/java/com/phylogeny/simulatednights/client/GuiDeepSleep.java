@@ -82,7 +82,7 @@ public class GuiDeepSleep extends GuiSleepMP
 		if (mimicGuiSleepMP)
 			buttonList.get(0).visible = sleepTimer == 0;
 		else if (sleepTimer == 0 && fullyAsleep)
-				Minecraft.getMinecraft().displayGuiScreen(parentGui);
+			Minecraft.getMinecraft().displayGuiScreen(parentGui);
 	}
 	
 	private void drawOverlay()
