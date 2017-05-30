@@ -1,6 +1,9 @@
 package com.phylogeny.simulatednights.client;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import com.google.common.base.Stopwatch;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -17,10 +20,11 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 public class GuiDeepSleep extends GuiSleepMP
 {
 	private String text = "";
-	private int sleepTimer;
+	private int sleepTimer, sleepTimerOffset;
 	private boolean mimicGuiSleepMP, closing;
 	private GuiScreen parentGui;
 	private GuiButtonNull button;
+	private Stopwatch timer = Stopwatch.createStarted();
 	
 	public GuiDeepSleep(GuiScreen parentGui)
 	{
@@ -77,8 +81,11 @@ public class GuiDeepSleep extends GuiSleepMP
 		drawOverlay();
 		boolean fullyAsleep = mc.player.isPlayerFullyAsleep();
 		if (fullyAsleep)
-			sleepTimer = MathHelper.clamp(sleepTimer + (closing ? -1 : 1), 0, getDeepSleepRange());
-		
+		{
+			sleepTimer = Math.round(Math.min(timer.elapsed(TimeUnit.MILLISECONDS) * (getDeepSleepRange() / 4000F), getDeepSleepRange())) + sleepTimerOffset;
+			if (closing)
+				sleepTimer = getDeepSleepRange() - sleepTimer;
+		}
 		if (mimicGuiSleepMP)
 			buttonList.get(0).visible = sleepTimer == 0;
 		else if (sleepTimer == 0 && fullyAsleep)
@@ -119,6 +126,11 @@ public class GuiDeepSleep extends GuiSleepMP
 	
 	public void setClosingState(boolean closing)
 	{
+		if (this.closing != closing)
+		{
+			timer = Stopwatch.createStarted();
+			sleepTimerOffset = closing ? getDeepSleepRange() - sleepTimer : sleepTimer;
+		}
 		this.closing = closing;
 	}
 	
