@@ -14,7 +14,6 @@ import net.minecraft.client.gui.GuiSleepMP;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class GuiDeepSleep extends GuiSleepMP
