@@ -3,8 +3,6 @@ package com.phylogeny.simulatednights.client;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import com.google.common.base.Stopwatch;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
@@ -15,6 +13,8 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+
+import com.google.common.base.Stopwatch;
 
 public class GuiDeepSleep extends GuiSleepMP
 {

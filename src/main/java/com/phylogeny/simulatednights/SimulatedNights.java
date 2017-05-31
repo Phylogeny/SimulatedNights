@@ -2,11 +2,6 @@ package com.phylogeny.simulatednights;
 
 import java.util.Map;
 
-import com.phylogeny.simulatednights.command.CommandSimulate;
-import com.phylogeny.simulatednights.proxy.ProxyCommon;
-import com.phylogeny.simulatednights.reference.Config;
-import com.phylogeny.simulatednights.reference.Reference;
-
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -17,6 +12,11 @@ import net.minecraftforge.fml.common.network.NetworkCheckHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
+
+import com.phylogeny.simulatednights.command.CommandSimulate;
+import com.phylogeny.simulatednights.proxy.ProxyCommon;
+import com.phylogeny.simulatednights.reference.Config;
+import com.phylogeny.simulatednights.reference.Reference;
 
 @Mod(modid = Reference.MOD_ID,
 	 version = Reference.VERSION,

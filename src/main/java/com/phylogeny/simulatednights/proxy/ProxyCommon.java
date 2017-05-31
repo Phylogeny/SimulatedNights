@@ -5,8 +5,8 @@ import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import com.phylogeny.simulatednights.ConfigHandler;
-import com.phylogeny.simulatednights.SimulationHandler;
 import com.phylogeny.simulatednights.PacketRegistration;
+import com.phylogeny.simulatednights.SimulationHandler;
 import com.phylogeny.simulatednights.integration.IntegrationMorpheus;
 
 public class ProxyCommon

@@ -1,13 +1,13 @@
 package com.phylogeny.simulatednights.packet;
 
-import com.phylogeny.simulatednights.client.GuiDeepSleep;
-
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import io.netty.buffer.ByteBuf;
+
+import com.phylogeny.simulatednights.client.GuiDeepSleep;
 
 public class PacketDeepSleep implements IMessage
 {

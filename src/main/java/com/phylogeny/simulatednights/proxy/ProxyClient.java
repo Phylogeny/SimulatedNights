@@ -1,9 +1,9 @@
 package com.phylogeny.simulatednights.proxy;
 
-import com.phylogeny.simulatednights.client.DeepSleepHandler;
-
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
+import com.phylogeny.simulatednights.client.DeepSleepHandler;
 
 public class ProxyClient extends ProxyCommon
 {

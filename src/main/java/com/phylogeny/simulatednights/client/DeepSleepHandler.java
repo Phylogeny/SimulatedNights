@@ -6,9 +6,6 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.Level;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenOptionsSounds;
@@ -22,12 +19,15 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.Level;
+
 import com.phylogeny.simulatednights.SimulatedNights;
 import com.phylogeny.simulatednights.integration.IntegrationMorpheus;
 import com.phylogeny.simulatednights.packet.PacketDeepSleepCheck;
 import com.phylogeny.simulatednights.reference.Config;
-import com.phylogeny.simulatednights.reference.Reference;
 import com.phylogeny.simulatednights.reference.Config.SleepSoundsFadeRange;
+import com.phylogeny.simulatednights.reference.Reference;
 
 public class DeepSleepHandler
 {

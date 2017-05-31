@@ -1,9 +1,9 @@
 package com.phylogeny.simulatednights;
 
+import net.minecraftforge.fml.relauncher.Side;
+
 import com.phylogeny.simulatednights.packet.PacketDeepSleep;
 import com.phylogeny.simulatednights.packet.PacketDeepSleepCheck;
-
-import net.minecraftforge.fml.relauncher.Side;
 
 public class PacketRegistration
 {

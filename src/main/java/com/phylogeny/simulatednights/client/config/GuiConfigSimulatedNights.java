@@ -2,11 +2,6 @@ package com.phylogeny.simulatednights.client.config;
 
 import java.io.IOException;
 
-import com.phylogeny.simulatednights.ConfigHandler;
-import com.phylogeny.simulatednights.reference.Config.SleepExecution;
-import com.phylogeny.simulatednights.reference.Config;
-import com.phylogeny.simulatednights.reference.Reference;
-
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraftforge.common.config.ConfigElement;
@@ -15,6 +10,11 @@ import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.IConfigEntry;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.StringEntry;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+
+import com.phylogeny.simulatednights.ConfigHandler;
+import com.phylogeny.simulatednights.reference.Config;
+import com.phylogeny.simulatednights.reference.Config.SleepExecution;
+import com.phylogeny.simulatednights.reference.Reference;
 
 public class GuiConfigSimulatedNights extends GuiConfig
 {

@@ -6,13 +6,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.tuple.MutablePair;
-
-import com.phylogeny.simulatednights.SimulationHandler;
-import com.phylogeny.simulatednights.SimulationHandler.TickCountCommand;
-import com.phylogeny.simulatednights.reference.Config;
-import com.phylogeny.simulatednights.reference.LangKey;
-
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -23,6 +16,13 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.WorldServer;
+
+import org.apache.commons.lang3.tuple.MutablePair;
+
+import com.phylogeny.simulatednights.SimulationHandler;
+import com.phylogeny.simulatednights.SimulationHandler.TickCountCommand;
+import com.phylogeny.simulatednights.reference.Config;
+import com.phylogeny.simulatednights.reference.LangKey;
 
 public class CommandSimulate extends CommandBase
 {

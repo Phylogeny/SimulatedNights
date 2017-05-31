@@ -1,14 +1,14 @@
 package com.phylogeny.simulatednights.packet;
 
-import com.phylogeny.simulatednights.SimulationHandler;
-import com.phylogeny.simulatednights.SimulatedNights;
-import com.phylogeny.simulatednights.reference.Config;
-
+import io.netty.buffer.ByteBuf;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import io.netty.buffer.ByteBuf;
+
+import com.phylogeny.simulatednights.SimulatedNights;
+import com.phylogeny.simulatednights.SimulationHandler;
+import com.phylogeny.simulatednights.reference.Config;
 
 public class PacketDeepSleepCheck implements IMessage
 {
