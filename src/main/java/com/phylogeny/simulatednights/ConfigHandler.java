@@ -1,20 +1,22 @@
 package com.phylogeny.simulatednights;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.HashSet;
+
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import org.apache.logging.log4j.Level;
 
 import com.phylogeny.simulatednights.command.CommandSimulate;
 import com.phylogeny.simulatednights.reference.Config;
+import com.phylogeny.simulatednights.reference.Config.SleepExecution;
 import com.phylogeny.simulatednights.reference.Config.SleepSoundsFadeRange;
 import com.phylogeny.simulatednights.reference.LangKey;
 import com.phylogeny.simulatednights.reference.Reference;
-import com.phylogeny.simulatednights.reference.Config.SleepExecution;
-
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.FMLLog;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.common.config.Configuration;
 
 public class ConfigHandler
 {
@@ -38,12 +40,12 @@ public class ConfigHandler
 	{
 		try
 		{
-			String version = getVersion(VERSION);
-			if (!version.equals(Reference.VERSION))
-				removeCategory(Configuration.CATEGORY_GENERAL);
-			
-			removeCategory(VERSION);
-			getVersion(Reference.VERSION);
+//			String version = getVersion(VERSION);
+//			if (!version.equals(Reference.VERSION))
+//				removeCategory(Configuration.CATEGORY_GENERAL);
+//			
+//			removeCategory(VERSION);
+//			getVersion(Reference.VERSION);
 			
 			Config.allowClientsWithMissingMod = configFile.getBoolean("Allow Clients With Missing Mod", Configuration.CATEGORY_GENERAL, true,
 					"If set to true, clients that do not have this mod installed can connect to and play on servers that do. If set to false, clients will not " +
@@ -113,6 +115,11 @@ public class ConfigHandler
 			Config.timeTickPercentage = configFile.getFloat("Time Tick Percentage", Configuration.CATEGORY_GENERAL, 1.0F, 0.0F, Float.MAX_VALUE,
 					"Percentage of the server ticks skipped by sleeping (or skipped by setting/adding time with the /simulate command) to simulate. (default = 100%)",
 					LangKey.CONFIG_PREFIX + "simulation.tickpercentage");
+			
+			Config.blackListTileEntities = new HashSet<String>(Arrays.asList(configFile.getStringList("Tile Entity Black List", Configuration.CATEGORY_GENERAL, new String[0],
+					"Any tile entities with blocks that have a registry name (Ex: minecraft:lit_furnace) found in this list will not be ticked during simulation. " +
+					"A block's registry name can be obtained by looking at it while in F3 debug mode; the name will appear on the left side of the screen (default = empty)", null,
+					LangKey.CONFIG_PREFIX + "blacklist.tileentity")));
 		}
 		catch (Exception e)
 		{
@@ -126,14 +133,14 @@ public class ConfigHandler
 		}
 	}
 	
-	private static String getVersion(String defaultValue)
-	{
-		return configFile.getString(VERSION, VERSION, defaultValue, "Used for cofig updating when updating mod version. Do not change.");
-	}
-	
-	private static void removeCategory(String category)
-	{
-		configFile.removeCategory(configFile.getCategory(category.toLowerCase()));
-	}
+//	private static String getVersion(String defaultValue)
+//	{
+//		return configFile.getString(VERSION, VERSION, defaultValue, "Used for cofig updating when updating mod version. Do not change.");
+//	}
+//	
+//	private static void removeCategory(String category)
+//	{
+//		configFile.removeCategory(configFile.getCategory(category.toLowerCase()));
+//	}
 	
 }

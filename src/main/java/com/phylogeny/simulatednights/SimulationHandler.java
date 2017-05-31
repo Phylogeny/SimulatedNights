@@ -7,16 +7,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.Level;
-
-import com.phylogeny.simulatednights.integration.IntegrationMorpheus;
-import com.phylogeny.simulatednights.packet.PacketDeepSleep;
-import com.phylogeny.simulatednights.reference.Config;
-import com.phylogeny.simulatednights.reference.Config.SleepExecution;
-import com.phylogeny.simulatednights.reference.Reference;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.command.ICommandSender;
@@ -27,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.ReportedException;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
@@ -39,6 +30,16 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.logging.log4j.Level;
+
+import com.phylogeny.simulatednights.integration.IntegrationMorpheus;
+import com.phylogeny.simulatednights.packet.PacketDeepSleep;
+import com.phylogeny.simulatednights.reference.Config;
+import com.phylogeny.simulatednights.reference.Config.SleepExecution;
+import com.phylogeny.simulatednights.reference.Reference;
 
 public class SimulationHandler
 {
@@ -227,10 +228,13 @@ public class SimulationHandler
 				Block block;
 				List<TileEntity> tileEntities = worldServer.tickableTileEntities;
 				TileEntity tileEntity;
+				ResourceLocation tileEntityBlockName;
 				Chunk chunk;
 				BlockPos blockpos;
 				List<Chunk> chunks = new ArrayList<Chunk>();
 				Iterator<Chunk> iterator = worldServer.getPersistentChunkIterable(worldServer.getPlayerChunkMap().getChunkIterator());
+				boolean checkTileEntityBlackList = !Config.blackListTileEntities.isEmpty();
+				ArrayList<TileEntity> removedTileEntities = new ArrayList<TileEntity>();
 				while (iterator.hasNext())
 					chunks.add(iterator.next());
 				
@@ -270,7 +274,26 @@ public class SimulationHandler
 					{
 						try
 						{
+							if (checkTileEntityBlackList)
+							{
+								for (i = 0; i < tileEntities.size(); i++)
+								{
+									tileEntity = tileEntities.get(i);
+									tileEntityBlockName = worldServer.getBlockState(tileEntities.get(i).getPos()).getBlock().getRegistryName();
+									if (tileEntityBlockName != null && Config.blackListTileEntities.contains(tileEntityBlockName.toString()))
+									{
+										removedTileEntities.add(tileEntity);
+										tileEntities.remove(i);
+										i--;
+									}
+								}
+							}
 							worldServer.updateEntities();
+							if (checkTileEntityBlackList)
+							{
+								for (i = 0; i < removedTileEntities.size(); i++)
+									tileEntities.add(removedTileEntities.get(i));
+							}
 						}
 						catch (Throwable throwable)
 						{
@@ -290,6 +313,12 @@ public class SimulationHandler
 						if (tileEntity.isInvalid() || !tileEntity.hasWorld())
 							continue;
 						
+						if (checkTileEntityBlackList)
+						{
+							tileEntityBlockName = worldServer.getBlockState(tileEntities.get(i).getPos()).getBlock().getRegistryName();
+							if (tileEntityBlockName != null && Config.blackListTileEntities.contains(tileEntityBlockName.toString()))
+								continue;
+						}
 						blockpos = tileEntity.getPos();
 						if (worldServer.isBlockLoaded(blockpos, false) && worldServer.getWorldBorder().contains(blockpos))
 						{

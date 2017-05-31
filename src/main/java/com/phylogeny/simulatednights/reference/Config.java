@@ -1,6 +1,7 @@
 package com.phylogeny.simulatednights.reference;
 
 import java.util.EnumMap;
+import java.util.Set;
 
 public class Config
 {
@@ -19,6 +20,7 @@ public class Config
 	public static int commandPermissionLevel;
 	public static boolean commandMessageLocalization;
 	public static boolean allowClientsWithMissingMod;
+	public static Set<String> blackListTileEntities;
 	
 	static
 	{
