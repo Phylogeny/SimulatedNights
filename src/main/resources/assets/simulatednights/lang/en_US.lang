@@ -29,4 +29,4 @@ config.simulatednights.night.deepsleep=Enter Deep Sleep
 config.simulatednights.night.sounds.fade=Fade To Silence Upon Falling Asleep
 config.simulatednights.command.permissionlevel=Command Permission Level
 config.simulatednights.command.client.localization=Command Messages Translate on Client
-config.simulatednights.blacklist.tileentity=Tile Entity Black List
+config.simulatednights.blacklist.tileentity=Tile Entity Blacklist
