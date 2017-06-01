@@ -116,10 +116,12 @@ public class ConfigHandler
 					"Percentage of the server ticks skipped by sleeping (or skipped by setting/adding time with the /simulate command) to simulate. (default = 100%)",
 					LangKey.CONFIG_PREFIX + "simulation.tickpercentage");
 			
-			Config.blackListTileEntities = new HashSet<String>(Arrays.asList(configFile.getStringList("Tile Entity Black List", Configuration.CATEGORY_GENERAL, new String[0],
+			Config.blackListTileEntities = new HashSet<String>(Arrays.asList(configFile.getStringList("Tile Entity Blacklist", Configuration.CATEGORY_GENERAL,
+					new String[]{"extrautils2:quarry"},
 					"Any tile entities with blocks that have a registry name (Ex: minecraft:lit_furnace) found in this list will not be ticked during simulation. " +
-					"A block's registry name can be obtained by looking at it while in F3 debug mode; the name will appear on the left side of the screen (default = empty)", null,
-					LangKey.CONFIG_PREFIX + "blacklist.tileentity")));
+					"A block's registry name can be obtained by looking at it while in F3 debug mode; the name will appear on the left side of the screen " +
+					"(default = the Quantum Quarry from Extra Utilities 2, as it explodes when ticked too fast)",
+					null, LangKey.CONFIG_PREFIX + "blacklist.tileentity")));
 		}
 		catch (Exception e)
 		{
