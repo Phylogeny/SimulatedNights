@@ -1,7 +1,13 @@
 package com.phylogeny.simulatednights.reference;
 
+import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
+
+import net.minecraftforge.fml.common.Loader;
 
 public class Config
 {
@@ -20,7 +26,8 @@ public class Config
 	public static int commandPermissionLevel;
 	public static boolean commandMessageLocalization;
 	public static boolean allowClientsWithMissingMod;
-	public static Set<String> blackListTileEntities;
+	public static Set<String> blacklistTileEntities;
+	public static boolean checkBlacklistTileEntities;
 	
 	static
 	{
@@ -30,6 +37,23 @@ public class Config
 		sleepSoundsFadeRangeMap.put(SleepSoundsFadeRange.DEEP, "Through Deep Sleep");
 		sleepSoundsFadeRangeMap.put(SleepSoundsFadeRange.ALL, "Through Normal & Deep Sleep");
 		sleepSoundsFadeRangeMap.put(SleepSoundsFadeRange.NONE, "No Sound Fading");
+	}
+	
+	public static void setBlacklistTileEntities(String[] blacklistEntries)
+	{
+		List<String> list = new LinkedList<String>(Arrays.asList(blacklistEntries));
+		for (int i = 0; i < list.size(); i++)
+		{
+			String entry = list.get(i);
+			int index = entry.indexOf(":");
+			if (entry.length() < 3 || index < 0 || !Loader.isModLoaded(entry.substring(0, index)))
+			{
+				list.remove(i);
+				i--;
+			}
+		}
+		blacklistTileEntities = new HashSet<String>(list);
+		checkBlacklistTileEntities = !blacklistTileEntities.isEmpty();
 	}
 	
 	public static void setSleepExecution(String configString)

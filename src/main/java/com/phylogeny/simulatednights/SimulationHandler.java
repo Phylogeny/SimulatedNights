@@ -233,7 +233,6 @@ public class SimulationHandler
 				BlockPos blockpos;
 				List<Chunk> chunks = new ArrayList<Chunk>();
 				Iterator<Chunk> iterator = worldServer.getPersistentChunkIterable(worldServer.getPlayerChunkMap().getChunkIterator());
-				boolean checkTileEntityBlackList = !Config.blackListTileEntities.isEmpty();
 				ArrayList<TileEntity> removedTileEntities = new ArrayList<TileEntity>();
 				while (iterator.hasNext())
 					chunks.add(iterator.next());
@@ -274,13 +273,13 @@ public class SimulationHandler
 					{
 						try
 						{
-							if (checkTileEntityBlackList)
+							if (Config.checkBlacklistTileEntities)
 							{
 								for (i = 0; i < tileEntities.size(); i++)
 								{
 									tileEntity = tileEntities.get(i);
 									tileEntityBlockName = worldServer.getBlockState(tileEntities.get(i).getPos()).getBlock().getRegistryName();
-									if (tileEntityBlockName != null && Config.blackListTileEntities.contains(tileEntityBlockName.toString()))
+									if (tileEntityBlockName != null && Config.blacklistTileEntities.contains(tileEntityBlockName.toString()))
 									{
 										removedTileEntities.add(tileEntity);
 										tileEntities.remove(i);
@@ -289,7 +288,7 @@ public class SimulationHandler
 								}
 							}
 							worldServer.updateEntities();
-							if (checkTileEntityBlackList)
+							if (Config.checkBlacklistTileEntities)
 							{
 								for (i = 0; i < removedTileEntities.size(); i++)
 									tileEntities.add(removedTileEntities.get(i));
@@ -313,10 +312,10 @@ public class SimulationHandler
 						if (tileEntity.isInvalid() || !tileEntity.hasWorld())
 							continue;
 						
-						if (checkTileEntityBlackList)
+						if (Config.checkBlacklistTileEntities)
 						{
 							tileEntityBlockName = worldServer.getBlockState(tileEntities.get(i).getPos()).getBlock().getRegistryName();
-							if (tileEntityBlockName != null && Config.blackListTileEntities.contains(tileEntityBlockName.toString()))
+							if (tileEntityBlockName != null && Config.blacklistTileEntities.contains(tileEntityBlockName.toString()))
 								continue;
 						}
 						blockpos = tileEntity.getPos();
