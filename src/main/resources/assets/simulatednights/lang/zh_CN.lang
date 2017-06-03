@@ -1,0 +1,32 @@
+#PARSE_ESCAPES
+command.simulatednights.usage="/simulate\n         - <ticks : time>\n             - follow 'ticks' with: <number of ticks to simulate>\n             - follow 'time' with: <set : add>\n                 - follow 'set' with: <day : night : time to set>\n                 - follow 'add' with: <time to add>\n         - <dimension id : 'all' : 'this' for current dimension>\n         - [tileentities : allentities : blocks (tick those specified)]\n         - [simulated ticks per server tick (default if absent)]\n         - ['singletick' to run simulation all in one server tick]
+command.simulatednights.arguments.first=Required first argument must be '%s' or '%s'.
+command.simulatednights.arguments.time=/%s %s must be followed by '%s' or '%s'.
+command.simulatednights.arguments.time.amount=/%s %s <%s : %s> must be followed by the time to set or add.
+command.simulatednights.arguments.ticks=/%s %s must be followed by the number of ticks to simulate.
+command.simulatednights.arguments.dimension=Dimension argument is required and must be a valid dimension id, '%s' for the current dimension, or '%s' for all dimensions.
+command.simulatednights.dimension.single=维度
+command.simulatednights.dimension.all=所有维度
+command.simulatednights.dimension.missing.single=未发现id为 %s 的维度。
+command.simulatednights.dimension.missing.all=未发现维度。
+command.simulatednights.result.allentities=%s%s 中的所有实体已模拟完毕。
+command.simulatednights.result.tileentities=%s%s 中的所有实体方块已模拟完毕。
+command.simulatednights.result.blocks=%s%s 已加载区块中的所有方块已模拟完毕。
+command.simulatednights.result.blocks.allentities=%s%s 已加载区块中的所有方块及实体已模拟完毕。
+command.simulatednights.result.blocks.tileentities=%s%s 已加载区块中的所有实体方块及实体已模拟完毕。
+command.simulatednights.queue.inprogress=一条模拟命令正在运行中。请等待该命令运行结束。
+
+config.simulatednights.mod.client.missingmod=允许客户端缺失模组
+config.simulatednights.mod.disable=禁用夜晚模拟
+config.simulatednights.simulation.tickpercentage=时间模拟百分比
+config.simulatednights.simulation.night.mode=服务器已完成夜晚完成模拟
+config.simulatednights.simulation.night.delay=睡眠延迟
+config.simulatednights.simulation.night.tick.allentities=睡眠时模拟所有实体方块
+config.simulatednights.simulation.night.tick.tileentities=睡眠时模拟实体方块
+config.simulatednights.simulation.night.tick.blocks=睡眠时模拟方块
+config.simulatednights.simulation.rate=每个服务器刻模拟的刻数
+config.simulatednights.night.deepsleep=进入深度睡眠
+config.simulatednights.night.sounds.fade=入睡时声音渐弱
+config.simulatednights.command.permissionlevel=命令权限级别
+config.simulatednights.command.client.localization=客户端翻译命令信息
+config.simulatednights.blacklist.tileentity=实体方块黑名单
