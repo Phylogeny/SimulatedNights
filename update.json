@@ -1,5 +1,8 @@
 {
   "homepage": "https://minecraft.curseforge.com/projects/simulated-nights",
+  "1.12": {
+    "1.12-2.0.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2452524"
+  },
   "1.11.2": {
     "1.11.2-1.2.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2427837"
   },
@@ -16,6 +19,8 @@
     "1.11.2-1.2.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2427837"
   },
   "promos": {
+    "1.12-latest": "1.12-2.0.0",
+    "1.12-recommended": "1.12-2.0.0",
     "1.11.2-latest": "1.11.2-1.2.0",
     "1.11.2-recommended": "1.11.2-1.2.0",
     "1.11-latest": "1.11.2-1.2.0",
