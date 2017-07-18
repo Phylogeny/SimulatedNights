@@ -1,11 +1,11 @@
 package com.phylogeny.simulatednights.client;
 
-import com.phylogeny.simulatednights.SimulatedNights;
-import com.phylogeny.simulatednights.integration.IntegrationMorpheus;
-import com.phylogeny.simulatednights.packet.PacketDeepSleepCheck;
-import com.phylogeny.simulatednights.reference.Config;
-import com.phylogeny.simulatednights.reference.Config.SleepSoundsFadeRange;
-import com.phylogeny.simulatednights.reference.Reference;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.util.List;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiScreenOptionsSounds;
@@ -18,33 +18,35 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Level;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.util.List;
+import com.phylogeny.simulatednights.SimulatedNights;
+import com.phylogeny.simulatednights.integration.IntegrationMorpheus;
+import com.phylogeny.simulatednights.packet.PacketDeepSleepCheck;
+import com.phylogeny.simulatednights.reference.Config;
+import com.phylogeny.simulatednights.reference.Config.SleepSoundsFadeRange;
+import com.phylogeny.simulatednights.reference.Reference;
 
 public class DeepSleepHandler
 {
 	private File extendedOptionsFile;
 	private float savedMasterVolume = -1.0F;
-
+	
 	public DeepSleepHandler()
 	{
 		extendedOptionsFile = new File(Minecraft.getMinecraft().mcDataDir, Reference.MOD_NAME.replaceAll(" ", "") + ".txt");
 		loadMasterVolumeCopy();
 	}
-
+	
 	@SubscribeEvent
 	public void openSleepGui(GuiOpenEvent event)
 	{
 		if (IntegrationMorpheus.isMorpheusLoaded && event.getGui() != null && event.getGui() instanceof GuiSleepMP && Minecraft.getMinecraft().player.isPlayerSleeping())
 			SimulatedNights.packetNetwork.sendToServer(new PacketDeepSleepCheck());
 	}
-
+	
 	@SubscribeEvent
 	public void setMasterVolumeCopy(GuiScreenEvent.MouseInputEvent.Post event)
 	{
@@ -58,13 +60,13 @@ public class DeepSleepHandler
 			}
 		}
 	}
-
+	
 	@SubscribeEvent
 	public void fadeSound(TickEvent.PlayerTickEvent event)
 	{
 		if (event.phase != Phase.START || event.side != Side.CLIENT)
 			return;
-
+		
 		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
 		if (gui != null && Minecraft.getMinecraft().player != null)
 		{
@@ -91,12 +93,12 @@ public class DeepSleepHandler
 		if (Minecraft.getMinecraft().gameSettings.getSoundLevel(SoundCategory.MASTER) != savedMasterVolume)
 			Minecraft.getMinecraft().gameSettings.setSoundLevel(SoundCategory.MASTER, savedMasterVolume);
 	}
-
+	
 	private void setMasterVolume(float soundPercentage)
 	{
 		Minecraft.getMinecraft().gameSettings.setSoundLevel(SoundCategory.MASTER, (1 - Math.min(1.0F, soundPercentage)) * savedMasterVolume);
 	}
-
+	
 	private void loadMasterVolumeCopy()
 	{
 		@SuppressWarnings("resource")
@@ -133,7 +135,7 @@ public class DeepSleepHandler
 		if (savedMasterVolume < 0)
 			savedMasterVolume = Minecraft.getMinecraft().gameSettings.getSoundLevel(SoundCategory.MASTER);
 	}
-
+	
 	public void saveMasterVolumeCopy()
 	{
 		@SuppressWarnings("resource")
@@ -153,10 +155,10 @@ public class DeepSleepHandler
 			IOUtils.closeQuietly(printWriter);
 		}
 	}
-
+	
 	private float parseFloat(String string)
 	{
 		return "true".equals(string) ? 1.0F : ("false".equals(string) ? 0.0F : Float.parseFloat(string));
 	}
-
+	
 }

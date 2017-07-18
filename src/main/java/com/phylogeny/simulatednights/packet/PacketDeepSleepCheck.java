@@ -13,13 +13,13 @@ import com.phylogeny.simulatednights.reference.Config;
 public class PacketDeepSleepCheck implements IMessage
 {
 	public PacketDeepSleepCheck() {}
-
+	
 	@Override
 	public void toBytes(ByteBuf buffer) {}
-
+	
 	@Override
 	public void fromBytes(ByteBuf buffer) {}
-
+	
 	public static class Handler implements IMessageHandler<PacketDeepSleepCheck, IMessage>
 	{
 		@Override
@@ -33,7 +33,7 @@ public class PacketDeepSleepCheck implements IMessage
 				{
 					if (!Config.enterDeepSleep)
 						return;
-
+					
 					int dimensionId = ctx.getServerHandler().player.world.provider.getDimension();
 					if (SimulationHandler.WORLD_SIMULATED_TICK_MAP.containsKey(dimensionId)
 							&& SimulationHandler.WORLD_SIMULATED_TICK_MAP.get(dimensionId).wasRecentlySet())
@@ -42,7 +42,7 @@ public class PacketDeepSleepCheck implements IMessage
 			});
 			return null;
 		}
-
+		
 	}
-
+	
 }
