@@ -7,8 +7,6 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLLog;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-import org.apache.logging.log4j.Level;
-
 import com.phylogeny.simulatednights.command.CommandSimulate;
 import com.phylogeny.simulatednights.reference.Config;
 import com.phylogeny.simulatednights.reference.Config.SleepExecution;
@@ -122,7 +120,7 @@ public class ConfigHandler
 		}
 		catch (Exception e)
 		{
-			FMLLog.log(Reference.MOD_NAME, Level.ERROR, " configurations failed to update.");
+			FMLLog.log.error(Reference.MOD_NAME + ": configurations failed to update.");
 			e.printStackTrace();
 		}
 		finally

@@ -33,7 +33,6 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.Level;
 
 import com.phylogeny.simulatednights.integration.IntegrationMorpheus;
 import com.phylogeny.simulatednights.packet.PacketDeepSleep;
@@ -296,9 +295,9 @@ public class SimulationHandler
 						}
 						catch (Throwable throwable)
 						{
-							CrashReport crashReport = CrashReport.makeCrashReport(throwable, "A fatal error has occurred as a result of ticking all world entities " +
-									"in the process of simulating server ticks:");
-							FMLLog.log(Reference.MOD_NAME, Level.FATAL, crashReport.getCompleteReport());
+							CrashReport crashReport = CrashReport.makeCrashReport(throwable, Reference.MOD_NAME + ": A fatal error has occurred as a result of ticking all " +
+									"world entities in the process of simulating server ticks:");
+							FMLLog.log.fatal(crashReport.getCompleteReport());
 							throw new ReportedException(crashReport);
 						}
 						continue;
@@ -327,11 +326,11 @@ public class SimulationHandler
 							}
 							catch (Throwable throwable)
 							{
-								CrashReport crashReport = CrashReport.makeCrashReport(throwable, "A fatal error has occurred as a result of ticking a tile entity " +
-										"in the process of simulating server ticks:");
+								CrashReport crashReport = CrashReport.makeCrashReport(throwable, Reference.MOD_NAME + ": A fatal error has occurred " +
+										"as a result of ticking a tile entity in the process of simulating server ticks:");
 								CrashReportCategory crashReportCategory = crashReport.makeCategory("Block entity being ticked");
 								tileEntity.addInfoToCrashReport(crashReportCategory);
-								FMLLog.log(Reference.MOD_NAME, Level.FATAL, crashReport.getCompleteReport());
+								FMLLog.log.fatal(crashReport.getCompleteReport());
 								throw new ReportedException(crashReport);
 							}
 						}
@@ -349,12 +348,12 @@ public class SimulationHandler
 	
 	public static void startMessage(int dimensionId)
 	{
-		FMLLog.log(Reference.MOD_NAME, Level.INFO, "Begin server tick simulation in dimension " + dimensionId + ".");
+		FMLLog.log.info(Reference.MOD_NAME + ": Begin server tick simulation in dimension " + dimensionId + ".");
 	}
 	
 	public static void endMessage(int dimensionId)
 	{
-		FMLLog.log(Reference.MOD_NAME, Level.INFO, "End server tick simulation in dimension " + dimensionId + ".");
+		FMLLog.log.info(Reference.MOD_NAME + ": End server tick simulation in dimension " + dimensionId + ".");
 	}
 	
 	public static class TickCount

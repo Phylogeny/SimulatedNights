@@ -2,8 +2,10 @@ package com.phylogeny.simulatednights.client;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -20,7 +22,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.relauncher.Side;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.Level;
 
 import com.phylogeny.simulatednights.SimulatedNights;
 import com.phylogeny.simulatednights.integration.IntegrationMorpheus;
@@ -108,6 +109,7 @@ public class DeepSleepHandler
 			if (extendedOptionsFile.exists())
 			{
 				stream = new FileInputStream(extendedOptionsFile);
+				@SuppressWarnings("deprecation")
 				List<String> list = IOUtils.readLines(stream);
 				if (list.size() > 0)
 				{
@@ -119,14 +121,14 @@ public class DeepSleepHandler
 					}
 					catch (Exception e)
 					{
-						FMLLog.log(Reference.MOD_NAME, Level.WARN, "Skipping bad extended option: {}", data[0]);
+						FMLLog.log.warn(Reference.MOD_NAME + ": Skipping bad extended option: {}", data[0]);
 					}
 				}
 			}
 		}
 		catch (Exception e)
 		{
-			FMLLog.log(Reference.MOD_NAME, Level.ERROR, "Failed to load master volume copy.", (Throwable) e);
+			FMLLog.log.error(Reference.MOD_NAME + ": Failed to load master volume copy.", e);
 		}
 		finally
 		{
@@ -142,13 +144,13 @@ public class DeepSleepHandler
 		PrintWriter printWriter = null;
 		try
 		{
-			printWriter = new PrintWriter(new FileWriter(extendedOptionsFile));
+			printWriter = new PrintWriter(new OutputStreamWriter(new FileOutputStream(extendedOptionsFile), StandardCharsets.UTF_8));
 			printWriter.println("soundCategory_master_copy:" + savedMasterVolume);
 			printWriter.println("Your master volume will be set to this copy of it when you wake from sleep. Do not alter this manually.");
 		}
 		catch (Exception e)
 		{
-			FMLLog.log(Reference.MOD_NAME, Level.ERROR, "Failed to save extended options", (Throwable) e);
+			FMLLog.log.error(Reference.MOD_NAME + ": Failed to save extended options", e);
 		}
 		finally
 		{
