@@ -1,20 +1,14 @@
 package com.phylogeny.simulatednights.client;
 
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
+import com.google.common.base.Stopwatch;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSleepMP;
-import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
-import com.google.common.base.Stopwatch;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class GuiDeepSleep extends GuiSleepMP
 {
@@ -24,7 +18,7 @@ public class GuiDeepSleep extends GuiSleepMP
 	private GuiScreen parentGui;
 	private GuiButtonNull button;
 	private Stopwatch timer = Stopwatch.createStarted();
-	
+
 	public GuiDeepSleep(GuiScreen parentGui)
 	{
 		this.parentGui = parentGui;
@@ -35,22 +29,22 @@ public class GuiDeepSleep extends GuiSleepMP
 			text = inputField.getText();
 		}
 	}
-	
+
 	public int getDeepSleepRange()
 	{
 		return 251;
 	}
-	
+
 	public int getDeepSleepTimer()
 	{
 		return sleepTimer;
 	}
-	
+
 	public float getPercentDeeplyAsleep()
 	{
 		return sleepTimer / (float) getDeepSleepRange();
 	}
-	
+
 	@Override
 	public void initGui()
 	{
@@ -58,12 +52,12 @@ public class GuiDeepSleep extends GuiSleepMP
 		buttonList.get(0).visible = false;
 		if (!mimicGuiSleepMP)
 			return;
-		
+
 		button = new GuiButtonNull(1, width / 2 - 100, height - 40, I18n.format("multiplayer.stopSleeping", new Object[0]));
 		inputField.setText(text);
 		text = "";
 	}
-	
+
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks)
 	{
@@ -90,39 +84,39 @@ public class GuiDeepSleep extends GuiSleepMP
 		else if (sleepTimer == 0 && fullyAsleep)
 			Minecraft.getMinecraft().displayGuiScreen(parentGui);
 	}
-	
+
 	private void drawOverlay()
 	{
 		int sleepTime = Math.min(80, (int) (sleepTimer / 2.5F));
 		float opacity = sleepTime / 100.0F;
 		if (opacity > 1.0F)
 			opacity = 1.0F - (sleepTime - 100) / 10.0F;
-		
+
 		int color = (int)(220.0F * opacity) << 24 | 1052688;
 		drawRect(0, 0, width, height, color);
 	}
-	
+
 	public static void enableBlend()
 	{
 		GlStateManager.enableBlend();
 		GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 	}
-	
+
 	@Override
 	public void updateScreen()
 	{
 		if (sleepTimer < 20)
 			super.updateScreen();
 	}
-	
+
 	@Override
 	protected void keyTyped(char typedChar, int keyCode) throws IOException
 	{
 		if (sleepTimer == 0)
 			super.keyTyped(typedChar, keyCode);
 	}
-	
+
 	public void setClosingState(boolean closing)
 	{
 		if (this.closing != closing)
@@ -132,40 +126,40 @@ public class GuiDeepSleep extends GuiSleepMP
 		}
 		this.closing = closing;
 	}
-	
-	public boolean isPlayerFadingIndoDeepSleep()
+
+	public boolean isPlayerFadingIntoDeepSleep()
 	{
 		return !closing;
 	}
-	
+
 	private static class GuiButtonNull extends GuiButton
 	{
-		
+
 		public GuiButtonNull(int buttonId, int x, int y, String buttonText)
 		{
 			super(buttonId, x, y, buttonText);
 		}
-		
+
 		@Override
 		public boolean mousePressed(Minecraft mc, int mouseX, int mouseY)
 		{
 			return false;
 		}
-		
+
 		public void drawButton(Minecraft mc, int mouseX, int mouseY, int alpha)
 		{
-			FontRenderer fontrenderer = mc.fontRendererObj;
+			FontRenderer fontrenderer = mc.fontRenderer;
 			mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
 			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha / 255.0F);
-			boolean hovered = mouseX >= xPosition && mouseY >= yPosition && mouseX < xPosition + width && mouseY < yPosition + height;
+			boolean hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			int i = hovered ? 2 : 1;
 			enableBlend();
-			drawTexturedModalRect(xPosition, yPosition, 0, 46 + i * 20, width / 2, height);
-			drawTexturedModalRect(xPosition + width / 2, yPosition, 200 - width / 2, 46 + i * 20, width / 2, height);
+			drawTexturedModalRect(x, y, 0, 46 + i * 20, width / 2, height);
+			drawTexturedModalRect(x + width / 2, y, 200 - width / 2, 46 + i * 20, width / 2, height);
 			int colorButtonText = packedFGColour != 0 ? packedFGColour : (hovered ? 16777120 : 14737632);
 			enableBlend();
-			drawCenteredString(fontrenderer, displayString, xPosition + width / 2, yPosition + (height - 8) / 2, colorButtonText | (alpha << 24));
+			drawCenteredString(fontrenderer, displayString, x + width / 2, y + (height - 8) / 2, colorButtonText | (alpha << 24));
 		}
-		
+
 	}
 }

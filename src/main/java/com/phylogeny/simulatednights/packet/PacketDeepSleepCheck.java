@@ -13,19 +13,19 @@ import com.phylogeny.simulatednights.reference.Config;
 public class PacketDeepSleepCheck implements IMessage
 {
 	public PacketDeepSleepCheck() {}
-	
+
 	@Override
 	public void toBytes(ByteBuf buffer) {}
-	
+
 	@Override
 	public void fromBytes(ByteBuf buffer) {}
-	
+
 	public static class Handler implements IMessageHandler<PacketDeepSleepCheck, IMessage>
 	{
 		@Override
 		public IMessage onMessage(final PacketDeepSleepCheck message, final MessageContext ctx)
 		{
-			WorldServer mainThread = (WorldServer) ctx.getServerHandler().playerEntity.world;
+			WorldServer mainThread = (WorldServer) ctx.getServerHandler().player.world;
 			mainThread.addScheduledTask(new Runnable()
 			{
 				@Override
@@ -33,16 +33,16 @@ public class PacketDeepSleepCheck implements IMessage
 				{
 					if (!Config.enterDeepSleep)
 						return;
-					
-					int dimensionId = ctx.getServerHandler().playerEntity.world.provider.getDimension();
+
+					int dimensionId = ctx.getServerHandler().player.world.provider.getDimension();
 					if (SimulationHandler.WORLD_SIMULATED_TICK_MAP.containsKey(dimensionId)
 							&& SimulationHandler.WORLD_SIMULATED_TICK_MAP.get(dimensionId).wasRecentlySet())
-						SimulatedNights.packetNetwork.sendTo(new PacketDeepSleep(false), ctx.getServerHandler().playerEntity);
+						SimulatedNights.packetNetwork.sendTo(new PacketDeepSleep(false), ctx.getServerHandler().player);
 				}
 			});
 			return null;
 		}
-		
+
 	}
-	
+
 }
