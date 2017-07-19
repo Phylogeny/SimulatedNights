@@ -1,35 +1,35 @@
 {
   "homepage": "https://minecraft.curseforge.com/projects/simulated-nights",
   "1.12": {
-    "1.12-2.0.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2452524"
+    "1.12-2.1.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2453023"
   },
   "1.11.2": {
-    "1.11.2-1.2.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2427837"
+    "1.11.2-1.3.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2453021"
   },
   "1.11": {
-    "1.11.2-1.2.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2427837"
+    "1.11.2-1.3.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2453021"
   },
   "1.10.2": {
-    "1.11.2-1.2.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2427837"
+    "1.11.2-1.3.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2453021"
   },
   "1.10": {
-    "1.11.2-1.2.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2427837"
+    "1.11.2-1.3.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2453021"
   },
   "1.9.4": {
-    "1.11.2-1.2.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2427837"
+    "1.11.2-1.3.0": "Changelog: https://minecraft.curseforge.com/projects/simulated-nights/files/2453021"
   },
   "promos": {
-    "1.12-latest": "1.12-2.0.0",
-    "1.12-recommended": "1.12-2.0.0",
-    "1.11.2-latest": "1.11.2-1.2.0",
-    "1.11.2-recommended": "1.11.2-1.2.0",
-    "1.11-latest": "1.11.2-1.2.0",
-    "1.11-recommended": "1.11.2-1.2.0",
-    "1.10.2-latest": "1.11.2-1.2.0",
-    "1.10.2-recommended": "1.11.2-1.2.0",
-    "1.10-latest": "1.11.2-1.2.0",
-    "1.10-recommended": "1.11.2-1.2.0",
-    "1.9.4-latest": "1.11.2-1.2.0",
-    "1.9.4-recommended": "1.11.2-1.2.0"
+    "1.12-latest": "1.12-2.1.0",
+    "1.12-recommended": "1.12-2.1.0",
+    "1.11.2-latest": "1.11.2-1.3.0",
+    "1.11.2-recommended": "1.11.2-1.3.0",
+    "1.11-latest": "1.11.2-1.3.0",
+    "1.11-recommended": "1.11.2-1.3.0",
+    "1.10.2-latest": "1.11.2-1.3.0",
+    "1.10.2-recommended": "1.11.2-1.3.0",
+    "1.10-latest": "1.11.2-1.3.0",
+    "1.10-recommended": "1.11.2-1.3.0",
+    "1.9.4-latest": "1.11.2-1.3.0",
+    "1.9.4-recommended": "1.11.2-1.3.0"
   }
 }
