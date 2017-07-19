@@ -36,23 +36,23 @@ public class ConfigHandler
 	{
 		try
 		{
-//			String version = getVersion(VERSION);
-//			if (!version.equals(Reference.VERSION))
-//				removeCategory(Configuration.CATEGORY_GENERAL);
-//			
-//			removeCategory(VERSION);
-//			getVersion(Reference.VERSION);
+			String version = getVersion(VERSION);
+			if (!version.equals(Reference.VERSION))
+				configFile.getCategory(Configuration.CATEGORY_GENERAL).remove("Command Messages Translate on Client");
+			
+			removeCategory(VERSION);
+			getVersion(Reference.VERSION);
 			
 			Config.allowClientsWithMissingMod = configFile.getBoolean("Allow Clients With Missing Mod", Configuration.CATEGORY_GENERAL, true,
 					"If set to true, clients that do not have this mod installed can connect to and play on servers that do. If set to false, clients will not " +
 					"be allowed to connect without this mod installed. (default = allow)",
 					LangKey.CONFIG_PREFIX + "mod.client.missingmod");
 			
-			Config.commandMessageLocalization = configFile.getBoolean("Command Messages Translate on Client", Configuration.CATEGORY_GENERAL, false,
+			Config.commandMessageLocalization = configFile.getBoolean("Command Messages Translate on Client", Configuration.CATEGORY_GENERAL, true,
 					"If set to true, command messages will be sent to clients as lang keys to be translated. The down-side is that if the client does not have this " +
 					"mod installed, the messages will be useless raw lang key strings. If set to false, the hard-coded strings (in English) will be sent. The " +
 					"down-side is that even if the client has this mod installed and has a non-English file, it will not translate to their language. " +
-					"(default = send hard-coded English strings)",
+					"(default = translate on client)",
 					LangKey.CONFIG_PREFIX + "command.client.localization");
 			
 			Config.commandPermissionLevel = configFile.getInt("Command Permission Level", Configuration.CATEGORY_GENERAL, 4, 0, 4,
@@ -130,14 +130,14 @@ public class ConfigHandler
 		}
 	}
 	
-//	private static String getVersion(String defaultValue)
-//	{
-//		return configFile.getString(VERSION, VERSION, defaultValue, "Used for cofig updating when updating mod version. Do not change.");
-//	}
-//	
-//	private static void removeCategory(String category)
-//	{
-//		configFile.removeCategory(configFile.getCategory(category.toLowerCase()));
-//	}
+	private static String getVersion(String defaultValue)
+	{
+		return configFile.getString(VERSION, VERSION, defaultValue, "Used for cofig updating when updating mod version. Do not change.");
+	}
+	
+	private static void removeCategory(String category)
+	{
+		configFile.removeCategory(configFile.getCategory(category));
+	}
 	
 }
