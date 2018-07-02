@@ -59,8 +59,7 @@ public class SimulationHandler
 		{
 			return field.getInt(instance);
 		}
-		catch (IllegalArgumentException e) {}
-		catch (IllegalAccessException e) {}
+		catch (IllegalArgumentException | IllegalAccessException e) {}
 		return 0;
 	}
 	
@@ -70,8 +69,7 @@ public class SimulationHandler
 		{
 			field.setInt(instance, value);
 		}
-		catch (IllegalArgumentException e) {}
-		catch (IllegalAccessException e) {}
+		catch (IllegalArgumentException | IllegalAccessException e) {}
 	}
 	
 	@SubscribeEvent
@@ -136,7 +134,7 @@ public class SimulationHandler
 						return;
 					}
 				}
-				simulateTicks(worldServer, getTimeUntilMorning(worldServer), true, true, true, true);
+				simulateTicks(worldServer, getTimeUntilMorning(worldServer), true, true);
 				return;
 			}
 			boolean wasNew = false;
@@ -156,7 +154,7 @@ public class SimulationHandler
 				tickCount.setCount(remainder);
 				delaySleep(worldServer, starting);
 			}
-			simulateTicks(worldServer, simulatedTicks, true, true, starting, remainder == 0);
+			simulateTicks(worldServer, simulatedTicks, starting, remainder == 0);
 		}
 		else if (Config.enterDeepSleep && WORLD_SIMULATED_TICK_MAP.containsKey(dimensionId) && (!IntegrationMorpheus.isMorpheusLoaded || event.world.getWorldTime() % 20L == 9))
 		{
@@ -202,9 +200,10 @@ public class SimulationHandler
 		IntegrationMorpheus.preventWakeUpAlert(worldServer);
 	}
 	
-	public static void simulateTicks(WorldServer worldServer, int simulatedTicks, boolean tickTileEntities, boolean tickBlocks, boolean notifyStart, boolean notifyEnd)
+	private static void simulateTicks(WorldServer worldServer, int simulatedTicks, boolean notifyStart, boolean notifyEnd)
 	{
-		simulateTicks(worldServer, simulatedTicks, false, false, Config.sleepTickAllEntities, tickTileEntities, tickBlocks, notifyStart, notifyEnd);
+		simulateTicks(worldServer, simulatedTicks, false, false, Config.sleepTickAllEntities,
+				Config.sleepTickAllTileEntities, Config.sleepTickAllBlocks, notifyStart, notifyEnd);
 	}
 	
 	public static void simulateTicks(final WorldServer worldServer, final int simulatedTicks, final boolean affectTime, final boolean setMode,
