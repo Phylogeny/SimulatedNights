@@ -133,7 +133,7 @@ public class GuiDeepSleep extends GuiSleepMP
 		this.closing = closing;
 	}
 	
-	public boolean isPlayerFadingIndoDeepSleep()
+	public boolean isPlayerFadingIntoDeepSleep()
 	{
 		return !closing;
 	}

@@ -137,13 +137,13 @@ public class SimulationHandler
 						return;
 					}
 				}
-				simulateTicks(worldServer, getTimeUntilMourning(worldServer), true, true, true, true);
+				simulateTicks(worldServer, getTimeUntilMorning(worldServer), true, true, true, true);
 				return;
 			}
 			boolean wasNew = false;
 			if (!WORLD_SIMULATED_TICK_MAP.containsKey(dimensionId))
 			{
-				WORLD_SIMULATED_TICK_MAP.put(dimensionId, new TickCount(getTimeUntilMourning(worldServer)));
+				WORLD_SIMULATED_TICK_MAP.put(dimensionId, new TickCount(getTimeUntilMorning(worldServer)));
 				wasNew = true;
 			}
 			TickCount tickCount = WORLD_SIMULATED_TICK_MAP.get(dimensionId);
@@ -178,7 +178,7 @@ public class SimulationHandler
 		}
 	}
 	
-	private int getTimeUntilMourning(WorldServer worldServer)
+	private int getTimeUntilMorning(WorldServer worldServer)
 	{
 		long time24Hr = 24000L;
 		long timeOld = worldServer.provider.getWorldTime();

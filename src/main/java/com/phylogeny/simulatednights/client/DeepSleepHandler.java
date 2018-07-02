@@ -78,7 +78,7 @@ public class DeepSleepHandler
 					setMasterVolume((Math.min(100, sleepTimer) * 2.8F + (gui instanceof GuiDeepSleep ? ((GuiDeepSleep) gui).getDeepSleepTimer() : 0) / 6.0F) / 315.83F);
 					return;
 				}
-				if (gui instanceof GuiDeepSleep && ((GuiDeepSleep) gui).isPlayerFadingIndoDeepSleep() && Config.sleepSoundsFadeRange == SleepSoundsFadeRange.DEEP)
+				if (gui instanceof GuiDeepSleep && ((GuiDeepSleep) gui).isPlayerFadingIntoDeepSleep() && Config.sleepSoundsFadeRange == SleepSoundsFadeRange.DEEP)
 				{
 					setMasterVolume(((GuiDeepSleep) gui).getPercentDeeplyAsleep());
 					return;
